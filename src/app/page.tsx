@@ -7,23 +7,42 @@ import { Navbar } from '@/components/ui/Navbar';
 import { Preloader } from '@/components/ui/Preloader';
 import { CustomCursor } from '@/components/ui/CustomCursor';
 import { MotionOverlays } from '@/components/motion/MotionOverlays';
+import { CinematicTypography } from '@/components/typography/CinematicTypography';
+import { InteractiveHotspotModal } from '@/components/cinematic/InteractiveHotspotModal';
+import { PhoneInteractiveExperience } from '@/components/phone/PhoneInteractiveExperience';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { WorkSection } from '@/components/sections/WorkSection';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { SystemAuditModal } from '@/components/ui/SystemAuditModal';
 import { Footer } from '@/components/ui/Footer';
-import { ArrowUpRight, ChevronDown, Check } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
-// Dynamic import of 3D Architectural Scene Canvas (no SSR hydration mismatch)
-const Scene = dynamic(() => import('@/components/3d/Scene').then((mod) => mod.Scene), {
+// Dynamic import of 3D Daytime Architectural Canvas to prevent SSR hydration mismatches
+const Scene = dynamic(() => import('@/three/Scene').then((mod) => mod.Scene), {
   ssr: false,
 });
 
 export default function HomePage() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [auditModalOpen, setAuditModalOpen] = useState<boolean>(false);
   const [selectedServiceTitle, setSelectedServiceTitle] = useState<string>('');
+
+  // Interactive Office Hotspot Modal State
+  const [hotspotModal, setHotspotModal] = useState<{
+    isOpen: boolean;
+    type: string;
+    title: string;
+    description: string;
+  }>({
+    isOpen: false,
+    type: '',
+    title: '',
+    description: '',
+  });
+
+  // Interactive Phone Experience Modal State
+  const [phoneExperienceOpen, setPhoneExperienceOpen] = useState<boolean>(false);
 
   // Setup Lenis Smooth Inertial Scroll
   useEffect(() => {
@@ -60,12 +79,21 @@ export default function HomePage() {
 
   const openAuditWithService = (serviceName?: string) => {
     setSelectedServiceTitle(serviceName || '');
-    setModalOpen(true);
+    setAuditModalOpen(true);
+  };
+
+  const handleSelectHotspot = (type: string, title: string, description: string) => {
+    setHotspotModal({
+      isOpen: true,
+      type,
+      title,
+      description,
+    });
   };
 
   return (
     <main className="relative min-h-screen bg-architectural-950 text-warm-ivory overflow-x-hidden selection:bg-gold-dim selection:text-gold-light font-sans">
-      {/* Precision Architectural Custom Cursor for Desktop */}
+      {/* Precision Custom Cursor */}
       <CustomCursor />
 
       {/* Subtle Frame Overlays */}
@@ -74,67 +102,37 @@ export default function HomePage() {
       {/* Luxury Editorial Preloader */}
       {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      {/* Persistent 3D Architectural Scene & Cinema Camera Rig */}
-      <Scene scrollProgress={scrollProgress} />
+      {/* Persistent 3D Daytime Architectural Canvas */}
+      <Scene
+        scrollProgress={scrollProgress}
+        onSelectHotspot={handleSelectHotspot}
+        onPhoneClick={() => setPhoneExperienceOpen(true)}
+      />
 
-      {/* Minimalist Editorial Navigation */}
+      {/* Minimalist Navigation */}
       <Navbar onOpenAudit={() => openAuditWithService()} />
 
       {/* =================================================================== */}
-      {/* SCROLLYTELLING MASTER NARRATIVE CONTAINER                           */}
+      {/* CONTINUOUS CAMERA STORYBOARD DOM SECTIONS                           */}
       {/* =================================================================== */}
       <div className="relative z-10">
         {/* ================================================================= */}
-        {/* SCENE 01: THE CITY (ESTABLISHING SHOT, 0% - 16%)                  */}
+        {/* SCENE 01: THE CITY (ESTABLISHING SHOT, 0% - 15%)                  */}
         {/* ================================================================= */}
         <section
           id="city"
           className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pt-28 pb-20"
         >
-          <div className="max-w-3xl space-y-8">
-            {/* Subtle Architectural Badge */}
-            <div className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-sm bg-warm-ivory/[0.04] border border-gold/30 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-              <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase">
-                ASHAIVA · ARCHITECTURAL SYSTEMS
-              </span>
-            </div>
-
-            {/* Editorial Main Headline */}
-            <h1 className="editorial-title font-sans font-medium text-5xl sm:text-7xl lg:text-8xl tracking-tight text-warm-ivory leading-[0.94]">
-              BUILDING <br />
-              <span className="text-gold font-serif italic">BETTER SYSTEMS</span> <br />
-              FOR BUSINESS.
-            </h1>
-
-            {/* Supporting Editorial Copy */}
-            <p className="editorial-sub text-base sm:text-xl text-warm-stone/85 max-w-2xl leading-relaxed">
-              ASHAIVA designs intelligent automation systems and digital experiences that make businesses simpler, faster, and easier to operate.
-            </p>
-
-            {/* Quiet Luxury CTAs */}
-            <div className="flex flex-wrap items-center gap-5 pt-4">
-              <button
-                onClick={() => openAuditWithService()}
-                className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-sm bg-gold text-architectural-950 font-sans font-semibold text-xs tracking-widest uppercase transition-all duration-400 hover:bg-gold-light hover:shadow-[0_0_35px_rgba(200,169,126,0.35)]"
-              >
-                <span>Start a Project</span>
-                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </button>
-
-              <a
-                href="#building"
-                className="inline-flex items-center gap-2 px-6 py-4 rounded-sm bg-architectural-900/80 border border-white/[0.1] text-warm-stone font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:border-gold/40 hover:text-warm-ivory"
-              >
-                <span>Explore Journey</span>
-                <ChevronDown className="w-3.5 h-3.5" />
-              </a>
-            </div>
+          <div className="max-w-3xl">
+            <CinematicTypography
+              scrollProgress={scrollProgress}
+              onOpenAudit={() => openAuditWithService()}
+            />
           </div>
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 02 & 03: APPROACH THE BUILDING (16% - 30%)                  */}
+        {/* SCENE 02 & 03: APPROACH THE BUILDING & TOWER SIGNAGE (15% - 28%)  */}
         {/* ================================================================= */}
         <section
           id="building"
@@ -142,7 +140,7 @@ export default function HomePage() {
         >
           <div className="max-w-2xl space-y-6">
             <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              01 // THE APPROACH · A BESPOKE PRESENCE
+              01 // THE APPROACH · ASHAIVA CORPORATE TOWER
             </span>
             <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
               From the outside, modern commerce looks seamless.{' '}
@@ -155,40 +153,27 @@ export default function HomePage() {
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 04 & 05: ENTER THROUGH THE GLASS & STUDIO FLOOR (30% - 46%) */}
+        {/* SCENE 04 & 05: ENTER THROUGH THE GLASS & STUDIO FLOOR (28% - 46%) */}
         {/* ================================================================= */}
         <section
           id="studio"
-          className="min-h-[90vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]"
+          className="min-h-[95vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]"
         >
           <div className="max-w-3xl space-y-6">
             <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              02 // THE STUDIO FLOOR · PHYSICAL PASS-THROUGH
+              02 // THE STUDIO FLOOR · PHYSICAL GLASS ENTRY
             </span>
             <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
               A studio dedicated to{' '}
               <span className="text-gold">systems discipline.</span>
             </h2>
             <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
-              Passing through the glass facade reveals our workspace: where complex enterprise workflows are dissected, modeled, and transformed into autonomous digital pipelines.
+              Passing through the 3rd-floor glass facade reveals our workspace: where complex enterprise workflows are dissected, modeled, and transformed into autonomous digital pipelines.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 font-mono text-xs text-warm-muted border-t border-white/[0.08]">
-              <div>
-                <div className="text-gold font-medium text-lg mb-1">01</div>
-                <div className="text-warm-ivory uppercase tracking-wider mb-1">Dismantle Drag</div>
-                <div>Replace manual spreadsheet and data-entry friction with zero-touch conduits.</div>
-              </div>
-              <div>
-                <div className="text-gold font-medium text-lg mb-1">02</div>
-                <div className="text-warm-ivory uppercase tracking-wider mb-1">Connect Tools</div>
-                <div>Synchronize CRM, communications, billing, and databases in real-time.</div>
-              </div>
-              <div>
-                <div className="text-gold font-medium text-lg mb-1">03</div>
-                <div className="text-warm-ivory uppercase tracking-wider mb-1">Autonomous Speed</div>
-                <div>Respond to inbound leads and client inquiries in under twenty seconds.</div>
-              </div>
+            <div className="p-4 rounded-sm bg-white/[0.04] border border-white/[0.08] inline-flex items-center gap-3 font-mono text-xs text-warm-stone/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+              <span>EXPLORE THE STUDIO: CLICK WORKSTATION, MONITOR, OR WHITEBOARD FOR BLUEPRINTS</span>
             </div>
           </div>
         </section>
@@ -212,7 +197,7 @@ export default function HomePage() {
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 08, 09 & 10: PHONE TRANSITION & ASHAIVA INSIDE PHONE        */}
+        {/* SCENE 08, 09 & 10: PHONE TRANSITION & ASHAIVA DISCOVERED          */}
         {/* (58% - 74%)                                                       */}
         {/* ================================================================= */}
         <section className="min-h-screen flex flex-col justify-center items-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06] text-center">
@@ -228,40 +213,13 @@ export default function HomePage() {
               As the lens approaches the smartphone screen, the physical studio yields to our digital craft: sovereign AI agents, workflow architectures, and bespoke web products.
             </p>
 
-            {/* Seamless Phone Screen Capability Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 text-left">
-              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
-                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">01 // AUTOMATION</span>
-                <h4 className="font-serif text-xl text-warm-ivory mb-1">Autonomous Operations</h4>
-                <p className="text-xs text-warm-stone/75 leading-relaxed">
-                  Inbound lead capture, CRM qualification, appointment routing, and instant document extraction.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
-                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">02 // AI AGENTS</span>
-                <h4 className="font-serif text-xl text-warm-ivory mb-1">Sovereign Domain Agents</h4>
-                <p className="text-xs text-warm-stone/75 leading-relaxed">
-                  Specialized LLM assistants with contextual tool access, memory, and automated execution.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
-                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">03 // WORKFLOW SYSTEMS</span>
-                <h4 className="font-serif text-xl text-warm-ivory mb-1">Event-Driven Conduits</h4>
-                <p className="text-xs text-warm-stone/75 leading-relaxed">
-                  Custom REST API middleware connecting legacy databases and modern cloud software.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
-                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">04 // CUSTOM EXPERIENCES</span>
-                <h4 className="font-serif text-xl text-warm-ivory mb-1">High-Performance Web</h4>
-                <p className="text-xs text-warm-stone/75 leading-relaxed">
-                  Bespoke WebGL applications, tactile user interfaces, and cinematic brand web products.
-                </p>
-              </div>
-            </div>
+            <button
+              onClick={() => setPhoneExperienceOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gold/10 border border-gold/40 text-gold font-mono text-xs tracking-widest uppercase hover:bg-gold hover:text-architectural-950 transition-all duration-300"
+            >
+              <span>Explore Mobile Conduit</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </section>
 
@@ -282,7 +240,7 @@ export default function HomePage() {
         <TeamSection />
 
         {/* ================================================================= */}
-        {/* SCENE 16: FINAL CTA & NIGHT CITYSCAPE (96% - 100%)                */}
+        {/* SCENE 16: FINAL CTA & DAYLIGHT CITYSCAPE (96% - 100%)             */}
         {/* ================================================================= */}
         <section
           id="contact"
@@ -293,11 +251,11 @@ export default function HomePage() {
               THE NEXT HORIZON // ARCHITECTURAL ENGAGEMENT
             </span>
             <h2 className="editorial-title text-5xl sm:text-7xl lg:text-8xl text-warm-ivory tracking-tight leading-[0.94]">
-              BUILD <br />
-              <span className="text-gold font-serif italic">WHAT&apos;S NEXT.</span>
+              HAVE A SYSTEM <br />
+              <span className="text-gold font-serif italic">WORTH BUILDING?</span>
             </h2>
             <p className="editorial-sub text-base sm:text-lg text-warm-stone/80 max-w-xl mx-auto font-sans leading-relaxed">
-              Tell us what you want to automate, connect, or build. We engineer the sovereign systems that run it.
+              Tell us what you want to automate, connect or build.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-5 pt-4">
@@ -311,9 +269,9 @@ export default function HomePage() {
 
               <button
                 onClick={() => openAuditWithService('Strategy Call')}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-sm bg-architectural-900 border border-white/[0.1] text-warm-stone font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:border-gold/40 hover:text-warm-ivory"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-sm bg-architectural-900 border border-white/[0.12] text-warm-stone font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:border-gold/40 hover:text-warm-ivory"
               >
-                <span>Inquire Directly</span>
+                <span>Let&apos;s Talk</span>
               </button>
             </div>
           </div>
@@ -323,10 +281,27 @@ export default function HomePage() {
         <Footer />
       </div>
 
+      {/* Interactive Office Hotspot Modal */}
+      <InteractiveHotspotModal
+        isOpen={hotspotModal.isOpen}
+        type={hotspotModal.type}
+        title={hotspotModal.title}
+        description={hotspotModal.description}
+        onClose={() => setHotspotModal((prev) => ({ ...prev, isOpen: false }))}
+        onOpenAudit={openAuditWithService}
+      />
+
+      {/* Interactive Phone Simulation Modal */}
+      <PhoneInteractiveExperience
+        isVisible={phoneExperienceOpen}
+        onOpenAudit={openAuditWithService}
+        onExitPhone={() => setPhoneExperienceOpen(false)}
+      />
+
       {/* Project Inquiry / Architecture Sprint Modal */}
       <SystemAuditModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={auditModalOpen}
+        onClose={() => setAuditModalOpen(false)}
         preselectedService={selectedServiceTitle}
       />
     </main>

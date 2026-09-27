@@ -2,62 +2,65 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ASHAIVA — Architecture of Intelligent Systems',
-  description: 'ASHAIVA designs intelligent automation systems and digital experiences that make businesses simpler, faster, and easier to operate.',
+  title: 'ASHAIVA AUTOMATION — AI Automation Systems for Modern Businesses',
+  description: 'ASHAIVA AUTOMATION designs intelligent AI-powered workflows that connect leads, communication, operations, documents, and business processes into one unified system.',
   keywords: [
+    'AI Automation',
+    'Workflow Engineering',
+    'Speed to Lead',
+    'CRM Automation',
+    'Document Extraction',
+    'Custom AI Agents',
     'ASHAIVA',
-    'AI Automation Studio',
-    'Intelligent Systems',
-    'Digital Systems Architecture',
-    'Custom Digital Experiences',
-    'Farhan Khan',
-    'Mohit Agarwal'
+    'Enterprise Automation Systems'
   ],
-  authors: [
-    { name: 'Farhan Khan' },
-    { name: 'Mohit Agarwal' }
-  ],
+  authors: [{ name: 'ASHAIVA AUTOMATION' }],
   metadataBase: new URL('https://ashaiva.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'ASHAIVA — Architecture of Intelligent Systems',
-    description: 'ASHAIVA designs intelligent automation systems and digital experiences that make businesses simpler, faster, and easier to operate.',
+    title: 'ASHAIVA AUTOMATION — AI Automation Systems for Modern Businesses',
+    description: 'Transform enterprise chaos into connected, intelligent automated systems. Zero dropped leads, instantaneous responses, automated operations.',
     url: 'https://ashaiva.com',
-    siteName: 'ASHAIVA',
+    siteName: 'ASHAIVA AUTOMATION',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ASHAIVA — Architecture of Intelligent Systems',
-    description: 'ASHAIVA designs intelligent automation systems and digital experiences that make businesses simpler, faster, and easier to operate.',
+    title: 'ASHAIVA AUTOMATION — AI Automation Systems for Modern Businesses',
+    description: 'ASHAIVA AUTOMATION designs intelligent AI-powered workflows that automate leads, communication, operations, documents and business processes.',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'ASHAIVA',
+  name: 'ASHAIVA AUTOMATION',
   url: 'https://ashaiva.com',
-  description: 'ASHAIVA designs intelligent automation systems and digital experiences that make businesses simpler, faster, and easier to operate.',
-  founders: [
-    {
-      '@type': 'Person',
-      name: 'Farhan Khan',
-      jobTitle: 'Co-Founder · Lead'
-    },
-    {
-      '@type': 'Person',
-      name: 'Mohit Agarwal',
-      jobTitle: 'Co-Founder · Lead'
-    }
-  ]
+  logo: 'https://ashaiva.com/logo.png',
+  description: 'ASHAIVA AUTOMATION builds intelligent AI-powered workflows that automate leads, communication, operations, documents and business processes.',
+  sameAs: [
+    'https://twitter.com/ashaiva',
+    'https://linkedin.com/company/ashaiva'
+  ],
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    serviceType: 'AI Workflow Engineering and Enterprise Automation'
+  }
 };
 
 export default function RootLayout({
@@ -71,7 +74,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap"
           rel="stylesheet"
         />
         <script
@@ -79,8 +82,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="bg-architectural-950 text-warm-ivory antialiased selection:bg-gold-dim selection:text-gold-light">
-        <div className="film-grain" aria-hidden="true" />
+      <body className="bg-obsidian-950 text-slate-100 antialiased selection:bg-teal-500/30 selection:text-teal-200">
+        <div className="noise-overlay" aria-hidden="true" />
         {children}
       </body>
     </html>
