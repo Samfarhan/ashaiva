@@ -2,15 +2,14 @@
 
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { SceneEnvironment } from './Environment';
-import { CameraRig } from './CameraRig';
-import { AutomationCore } from './AutomationCore';
-import { WorkflowNodes } from './WorkflowNodes';
-import { ConnectionLines } from './ConnectionLines';
-import { DataStreams } from './DataStreams';
-import { BrowserFrame } from './BrowserFrame';
-import { FloatingPanels } from './FloatingPanels';
-import { ParticleField } from './ParticleField';
+import * as THREE from 'three';
+import { CinematicCameraRig } from './CinematicCameraRig';
+import { ArchitecturalLighting } from './ArchitecturalLighting';
+import { ArchitecturalCity } from './ArchitecturalCity';
+import { AshaivaBuilding } from './AshaivaBuilding';
+import { StudioInterior } from './StudioInterior';
+import { ArchitecturalHuman } from './ArchitecturalHuman';
+import { SmartphonePortal } from './SmartphonePortal';
 
 interface SceneProps {
   scrollProgress: number;
@@ -20,7 +19,7 @@ export function Scene({ scrollProgress }: SceneProps) {
   return (
     <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
       <Canvas
-        camera={{ position: [0, 1.0, 13.5], fov: 45 }}
+        camera={{ position: [0, 9.2, 26.5], fov: 46 }}
         dpr={[1, 1.75]}
         gl={{
           antialias: true,
@@ -29,18 +28,21 @@ export function Scene({ scrollProgress }: SceneProps) {
           stencil: false,
           depth: true,
         }}
+        onCreated={({ scene, gl }) => {
+          scene.fog = new THREE.FogExp2('#0a0c10', 0.012);
+          gl.toneMapping = THREE.ACESFilmicToneMapping;
+          gl.toneMappingExposure = 1.08;
+        }}
         className="w-full h-full"
       >
         <Suspense fallback={null}>
-          <SceneEnvironment />
-          <CameraRig scrollProgress={scrollProgress} />
-          <AutomationCore scrollProgress={scrollProgress} />
-          <WorkflowNodes scrollProgress={scrollProgress} />
-          <ConnectionLines scrollProgress={scrollProgress} />
-          <DataStreams scrollProgress={scrollProgress} />
-          <BrowserFrame scrollProgress={scrollProgress} />
-          <FloatingPanels scrollProgress={scrollProgress} />
-          <ParticleField scrollProgress={scrollProgress} count={750} />
+          <ArchitecturalLighting />
+          <CinematicCameraRig scrollProgress={scrollProgress} />
+          <ArchitecturalCity scrollProgress={scrollProgress} />
+          <AshaivaBuilding scrollProgress={scrollProgress} />
+          <StudioInterior scrollProgress={scrollProgress} />
+          <ArchitecturalHuman scrollProgress={scrollProgress} />
+          <SmartphonePortal scrollProgress={scrollProgress} />
         </Suspense>
       </Canvas>
     </div>

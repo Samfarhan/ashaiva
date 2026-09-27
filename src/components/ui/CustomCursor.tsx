@@ -8,7 +8,6 @@ export function CustomCursor() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Only enable on desktop pointer devices
     if (!window.matchMedia('(pointer: fine)').matches) return;
 
     const onMouseMove = (e: MouseEvent) => {
@@ -37,21 +36,21 @@ export function CustomCursor() {
   if (!visible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
-      {/* Outer Follower Ring */}
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden select-none">
+      {/* Outer Subtle Architectural Ring */}
       <div
-        className={`fixed top-0 left-0 rounded-full border border-teal-400/50 transition-transform duration-150 ease-out will-change-transform ${
+        className={`fixed top-0 left-0 rounded-full border border-gold/30 transition-transform duration-150 ease-out will-change-transform ${
           hovered
-            ? 'w-10 h-10 -ml-5 -mt-5 bg-teal-400/10 border-teal-300 shadow-[0_0_15px_rgba(45,212,191,0.3)]'
+            ? 'w-10 h-10 -ml-5 -mt-5 bg-gold/10 border-gold shadow-[0_0_20px_rgba(200,169,126,0.25)] scale-110'
             : 'w-6 h-6 -ml-3 -mt-3'
         }`}
         style={{
           transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
         }}
       />
-      {/* Central Precision Dot */}
+      {/* Central Precision Warm Gold Dot */}
       <div
-        className="fixed top-0 left-0 w-1.5 h-1.5 -ml-[3px] -mt-[3px] rounded-full bg-teal-400 will-change-transform"
+        className="fixed top-0 left-0 w-1 h-1 -ml-[2px] -mt-[2px] rounded-full bg-gold will-change-transform"
         style={{
           transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
         }}

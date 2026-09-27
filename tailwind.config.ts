@@ -10,49 +10,65 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        obsidian: {
-          950: '#030609',
-          900: '#060a0f',
-          850: '#0a1017',
-          800: '#0f1722',
-          750: '#15202e',
-          700: '#1c2b3e',
+        architectural: {
+          950: '#080808',
+          900: '#101010',
+          850: '#171717',
+          800: '#1F1F1F',
+          700: '#2A2A2A',
+          border: 'rgba(245, 243, 238, 0.08)',
+          line: 'rgba(245, 243, 238, 0.14)',
         },
-        graphite: {
-          600: '#29394b',
-          500: '#41556b',
-          400: '#657e98',
-          300: '#94a9bf',
-          200: '#c5d3e2',
+        warm: {
+          ivory: '#F5F3EE',
+          stone: '#D6D3CC',
+          muted: '#8E8B82',
+          charcoal: '#24221E',
+        },
+        gold: {
+          DEFAULT: '#C8A97E',
+          light: '#E5D1B8',
+          dark: '#A68558',
+          dim: 'rgba(200, 169, 126, 0.12)',
+          border: 'rgba(200, 169, 126, 0.28)',
+        },
+        olive: {
+          DEFAULT: '#8C9274',
+          dim: 'rgba(140, 146, 116, 0.15)',
+        },
+        // Legacy aliases mapped to luxury architectural palette
+        obsidian: {
+          950: '#080808',
+          900: '#101010',
+          850: '#171717',
+          800: '#1F1F1F',
+          750: '#262626',
+          700: '#303030',
         },
         accent: {
-          DEFAULT: '#2dd4bf',
-          hover: '#5eead4',
-          muted: '#14b8a6',
-          dim: 'rgba(45, 212, 191, 0.12)',
-          border: 'rgba(45, 212, 191, 0.24)',
+          DEFAULT: '#C8A97E',
+          hover: '#E5D1B8',
+          muted: '#A68558',
+          dim: 'rgba(200, 169, 126, 0.12)',
+          border: 'rgba(200, 169, 126, 0.28)',
         },
-        steel: {
-          light: '#cbd5e1',
-          DEFAULT: '#94a3b8',
-          dark: '#475569',
-        }
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-mono)', 'monospace'],
-        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Playfair Display', 'Georgia', 'serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+        display: ['var(--font-display)', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       animation: {
-        'pulse-subtle': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float-slow': 'float 8s ease-in-out infinite',
+        'fade-in': 'fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-slow': 'fadeIn 2.5s ease-out forwards',
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
-        }
-      }
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
     },
   },
   plugins: [],

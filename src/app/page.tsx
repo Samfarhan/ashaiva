@@ -1,26 +1,20 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Lenis from 'lenis';
 import { Navbar } from '@/components/ui/Navbar';
 import { Preloader } from '@/components/ui/Preloader';
 import { CustomCursor } from '@/components/ui/CustomCursor';
-import { InteractiveWorkflowDemo } from '@/components/ui/InteractiveWorkflowDemo';
 import { MotionOverlays } from '@/components/motion/MotionOverlays';
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { WorkSection } from '@/components/sections/WorkSection';
 import { TeamSection } from '@/components/sections/TeamSection';
-import { BeforeAfterSlider } from '@/components/ui/BeforeAfterSlider';
-import { InteractiveInterfaces } from '@/components/ui/InteractiveInterfaces';
-import { IndustryShowcase } from '@/components/ui/IndustryShowcase';
-import { ProcessRoadmap } from '@/components/ui/ProcessRoadmap';
-import { RoiCalculator } from '@/components/ui/RoiCalculator';
 import { SystemAuditModal } from '@/components/ui/SystemAuditModal';
 import { Footer } from '@/components/ui/Footer';
-import { ArrowUpRight, Cpu, Sparkles, Shield, ChevronDown, CheckCircle2, Zap } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Check } from 'lucide-react';
 
-// Dynamic import of the 3D WebGL Canvas to prevent SSR hydration mismatches
+// Dynamic import of 3D Architectural Scene Canvas (no SSR hydration mismatch)
 const Scene = dynamic(() => import('@/components/3d/Scene').then((mod) => mod.Scene), {
   ssr: false,
 });
@@ -31,15 +25,15 @@ export default function HomePage() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedServiceTitle, setSelectedServiceTitle] = useState<string>('');
 
-  // Setup Lenis Smooth Scroll
+  // Setup Lenis Smooth Inertial Scroll
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.4,
     });
 
     function raf(time: number) {
@@ -70,260 +64,266 @@ export default function HomePage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-obsidian-950 text-slate-100 overflow-x-hidden selection:bg-teal-500/30 selection:text-teal-200">
-      {/* Precision Custom Cursor for Desktop */}
+    <main className="relative min-h-screen bg-architectural-950 text-warm-ivory overflow-x-hidden selection:bg-gold-dim selection:text-gold-light font-sans">
+      {/* Precision Architectural Custom Cursor for Desktop */}
       <CustomCursor />
 
-      {/* Futuristic Motion Graphics Overlays */}
+      {/* Subtle Frame Overlays */}
       <MotionOverlays />
 
-      {/* Preloader */}
+      {/* Luxury Editorial Preloader */}
       {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      {/* Persistent 3D WebGL Scene */}
+      {/* Persistent 3D Architectural Scene & Cinema Camera Rig */}
       <Scene scrollProgress={scrollProgress} />
 
-      {/* Minimal Navigation */}
+      {/* Minimalist Editorial Navigation */}
       <Navbar onOpenAudit={() => openAuditWithService()} />
 
-      {/* Scrollytelling DOM Container */}
+      {/* =================================================================== */}
+      {/* SCROLLYTELLING MASTER NARRATIVE CONTAINER                           */}
+      {/* =================================================================== */}
       <div className="relative z-10">
         {/* ================================================================= */}
-        {/* SECTION 1: CINEMATIC HERO (0% - 10%)                             */}
+        {/* SCENE 01: THE CITY (ESTABLISHING SHOT, 0% - 16%)                  */}
         {/* ================================================================= */}
-        <section className="relative min-h-screen flex flex-col justify-center px-6 sm:px-8 max-w-7xl mx-auto pt-24 pb-16">
-          <div className="max-w-3xl space-y-6">
-            {/* Technical Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-obsidian-900/90 border border-teal-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(45,212,191,0.15)]">
-              <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
-              <span className="font-mono text-xs text-teal-300 font-medium tracking-widest uppercase">
-                ASHAIVA ENTERPRISE AUTOMATION
+        <section
+          id="city"
+          className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pt-28 pb-20"
+        >
+          <div className="max-w-3xl space-y-8">
+            {/* Subtle Architectural Badge */}
+            <div className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-sm bg-warm-ivory/[0.04] border border-gold/30 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+              <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase">
+                ASHAIVA · ARCHITECTURAL SYSTEMS
               </span>
             </div>
 
-            {/* Editorial Headline */}
-            <h1 className="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-[1.04]">
-              Automate the Work.{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-200 to-sky-300">
-                Amplify the Business.
-              </span>
+            {/* Editorial Main Headline */}
+            <h1 className="editorial-title font-sans font-medium text-5xl sm:text-7xl lg:text-8xl tracking-tight text-warm-ivory leading-[0.94]">
+              BUILDING <br />
+              <span className="text-gold font-serif italic">BETTER SYSTEMS</span> <br />
+              FOR BUSINESS.
             </h1>
 
-            {/* Supporting Copy */}
-            <p className="text-base sm:text-lg text-slate-300 font-sans max-w-2xl leading-relaxed">
-              ASHAIVA AUTOMATION designs intelligent systems that connect your leads, communication, operations, and data into one automated workflow.
+            {/* Supporting Editorial Copy */}
+            <p className="editorial-sub text-base sm:text-xl text-warm-stone/85 max-w-2xl leading-relaxed">
+              ASHAIVA designs intelligent automation systems and digital experiences that make businesses simpler, faster, and easier to operate.
             </p>
 
-            {/* Hero CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-4">
+            {/* Quiet Luxury CTAs */}
+            <div className="flex flex-wrap items-center gap-5 pt-4">
               <button
                 onClick={() => openAuditWithService()}
-                className="group inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-teal-400 text-obsidian-950 font-bold text-sm tracking-wider uppercase transition-all duration-300 hover:bg-teal-300 hover:shadow-[0_0_35px_rgba(45,212,191,0.45)] hover:scale-[1.02] active:scale-[0.98]"
+                className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-sm bg-gold text-architectural-950 font-sans font-semibold text-xs tracking-widest uppercase transition-all duration-400 hover:bg-gold-light hover:shadow-[0_0_35px_rgba(200,169,126,0.35)]"
               >
-                <span>Build My Automation</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>Start a Project</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
 
               <a
-                href="#services"
-                className="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-obsidian-850/90 border border-white/[0.12] text-slate-200 font-mono text-xs tracking-wider uppercase transition-all duration-300 hover:bg-obsidian-800 hover:border-teal-500/40 hover:text-white"
+                href="#building"
+                className="inline-flex items-center gap-2 px-6 py-4 rounded-sm bg-architectural-900/80 border border-white/[0.1] text-warm-stone font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:border-gold/40 hover:text-warm-ivory"
               >
-                <span>Explore Systems</span>
-                <ChevronDown className="w-4 h-4" />
+                <span>Explore Journey</span>
+                <ChevronDown className="w-3.5 h-3.5" />
               </a>
             </div>
+          </div>
+        </section>
 
-            {/* Live Operational Telemetry Ticker */}
-            <div className="pt-8 flex flex-wrap items-center gap-6 text-xs font-mono text-slate-400 border-t border-white/[0.08]">
-              <div className="flex items-center gap-2">
-                <span className="text-teal-400 font-bold">18s</span>
-                <span>MEDIAN LEAD RESPONSE</span>
+        {/* ================================================================= */}
+        {/* SCENE 02 & 03: APPROACH THE BUILDING (16% - 30%)                  */}
+        {/* ================================================================= */}
+        <section
+          id="building"
+          className="min-h-[90vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]"
+        >
+          <div className="max-w-2xl space-y-6">
+            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
+              01 // THE APPROACH · A BESPOKE PRESENCE
+            </span>
+            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+              From the outside, modern commerce looks seamless.{' '}
+              <span className="text-gold">Inside, it runs on infrastructure.</span>
+            </h2>
+            <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
+              Growing companies often suffer from invisible operational friction: disconnected software, delayed inboxes, and manual copy-paste bottlenecks. We engineer sovereign automated architectures that eliminate operational drag.
+            </p>
+          </div>
+        </section>
+
+        {/* ================================================================= */}
+        {/* SCENE 04 & 05: ENTER THROUGH THE GLASS & STUDIO FLOOR (30% - 46%) */}
+        {/* ================================================================= */}
+        <section
+          id="studio"
+          className="min-h-[90vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]"
+        >
+          <div className="max-w-3xl space-y-6">
+            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
+              02 // THE STUDIO FLOOR · PHYSICAL PASS-THROUGH
+            </span>
+            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+              A studio dedicated to{' '}
+              <span className="text-gold">systems discipline.</span>
+            </h2>
+            <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
+              Passing through the glass facade reveals our workspace: where complex enterprise workflows are dissected, modeled, and transformed into autonomous digital pipelines.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 font-mono text-xs text-warm-muted border-t border-white/[0.08]">
+              <div>
+                <div className="text-gold font-medium text-lg mb-1">01</div>
+                <div className="text-warm-ivory uppercase tracking-wider mb-1">Dismantle Drag</div>
+                <div>Replace manual spreadsheet and data-entry friction with zero-touch conduits.</div>
               </div>
-              <span className="text-white/20 hidden sm:inline">•</span>
-              <div className="flex items-center gap-2">
-                <span className="text-teal-400 font-bold">100%</span>
-                <span>CRM ACCURACY</span>
+              <div>
+                <div className="text-gold font-medium text-lg mb-1">02</div>
+                <div className="text-warm-ivory uppercase tracking-wider mb-1">Connect Tools</div>
+                <div>Synchronize CRM, communications, billing, and databases in real-time.</div>
               </div>
-              <span className="text-white/20 hidden sm:inline">•</span>
-              <div className="flex items-center gap-2">
-                <span className="text-teal-400 font-bold">0%</span>
-                <span>DROPPED LEADS</span>
+              <div>
+                <div className="text-gold font-medium text-lg mb-1">03</div>
+                <div className="text-warm-ivory uppercase tracking-wider mb-1">Autonomous Speed</div>
+                <div>Respond to inbound leads and client inquiries in under twenty seconds.</div>
               </div>
             </div>
           </div>
         </section>
 
         {/* ================================================================= */}
-        {/* SECTION 2: CENTRAL CONCEPT (10% - 22%)                           */}
+        {/* SCENE 06 & 07: HUMAN MOMENT & WORKSTATION (46% - 58%)             */}
         {/* ================================================================= */}
-        <section className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="max-w-4xl space-y-6">
-            <span className="font-mono text-xs text-teal-400 uppercase tracking-widest block">
-              THE CENTRAL THESIS // 01 CHAOS TO SYSTEMS
+        <section className="min-h-[85vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]">
+          <div className="max-w-2xl space-y-6">
+            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
+              03 // THE HUMAN TOUCHPOINT · SINGLE-TOUCH CLARITY
             </span>
-            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              Businesses are chaotic.{' '}
-              <br />
-              <span className="text-teal-300">ASHAIVA turns chaos into systems.</span>
+            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+              Sophistication made{' '}
+              <span className="text-gold">effortlessly simple.</span>
             </h2>
-            <p className="text-base text-slate-300 leading-relaxed max-w-2xl font-sans">
-              In growing companies, valuable work fragments across separate SaaS silos, delayed inboxes, unupdated spreadsheets, and repetitive human labor. We replace operational chaos with cohesive, self-healing automated architectures.
+            <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
+              Real business systems should never feel complicated to the people using them. The true test of high-end engineering is creating an interface so intuitive that an entire enterprise runs through a single screen.
             </p>
           </div>
         </section>
 
         {/* ================================================================= */}
-        {/* SECTION 3: LIVING ENGINE FLOW SIMULATION (22% - 35%)             */}
+        {/* SCENE 08, 09 & 10: PHONE TRANSITION & ASHAIVA INSIDE PHONE        */}
+        {/* (58% - 74%)                                                       */}
         {/* ================================================================= */}
-        <section id="systems" className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="mb-10 max-w-2xl space-y-2">
-            <span className="font-mono text-xs text-teal-400 uppercase tracking-widest block">
-              INTERACTIVE ARCHITECTURE // 02 LIVING PIPELINE
+        <section className="min-h-screen flex flex-col justify-center items-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06] text-center">
+          <div className="max-w-2xl space-y-6">
+            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
+              04 // THE PHONE INTERACTION · ASHAIVA DISCOVERED
             </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              Watch The Automation Engine Run
+            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+              Entering the digital core of{' '}
+              <span className="font-serif italic text-gold">Ashaiva.</span>
             </h2>
-            <p className="text-sm text-slate-300 font-sans">
-              Test how an inbound lead signal travels through real-time AI qualification, CRM enrichment, speed-to-lead dispatch, and executive reporting.
+            <p className="editorial-sub text-base text-warm-stone/80 max-w-xl mx-auto font-sans leading-relaxed">
+              As the lens approaches the smartphone screen, the physical studio yields to our digital craft: sovereign AI agents, workflow architectures, and bespoke web products.
             </p>
+
+            {/* Seamless Phone Screen Capability Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 text-left">
+              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
+                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">01 // AUTOMATION</span>
+                <h4 className="font-serif text-xl text-warm-ivory mb-1">Autonomous Operations</h4>
+                <p className="text-xs text-warm-stone/75 leading-relaxed">
+                  Inbound lead capture, CRM qualification, appointment routing, and instant document extraction.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
+                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">02 // AI AGENTS</span>
+                <h4 className="font-serif text-xl text-warm-ivory mb-1">Sovereign Domain Agents</h4>
+                <p className="text-xs text-warm-stone/75 leading-relaxed">
+                  Specialized LLM assistants with contextual tool access, memory, and automated execution.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
+                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">03 // WORKFLOW SYSTEMS</span>
+                <h4 className="font-serif text-xl text-warm-ivory mb-1">Event-Driven Conduits</h4>
+                <p className="text-xs text-warm-stone/75 leading-relaxed">
+                  Custom REST API middleware connecting legacy databases and modern cloud software.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-sm bg-architectural-900/80 border border-white/[0.08]">
+                <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">04 // CUSTOM EXPERIENCES</span>
+                <h4 className="font-serif text-xl text-warm-ivory mb-1">High-Performance Web</h4>
+                <p className="text-xs text-warm-stone/75 leading-relaxed">
+                  Bespoke WebGL applications, tactile user interfaces, and cinematic brand web products.
+                </p>
+              </div>
+            </div>
           </div>
-          <InteractiveWorkflowDemo />
         </section>
 
         {/* ================================================================= */}
-        {/* SECTION 4: 10 CORE SERVICES AUTOMATION SUITE                      */}
+        {/* SCENE 11, 12 & 13: EXIT PHONE & SPATIAL SERVICES (74% - 86%)      */}
         {/* ================================================================= */}
         <ServicesSection onOpenAudit={openAuditWithService} />
 
         {/* ================================================================= */}
-        {/* SECTION 5: 5-STAGE METHODOLOGY                                   */}
-        {/* ================================================================= */}
-        <section id="process" className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="mb-10 max-w-2xl space-y-2">
-            <span className="font-mono text-xs text-teal-400 uppercase tracking-widest block">
-              METHODOLOGY // 05 FIVE PHASES
-            </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              From Chaos to Automated Execution in 14 Days
-            </h2>
-            <p className="text-sm text-slate-300 font-sans">
-              A structured, low-risk engineering deployment designed to require zero technical overhead from your internal staff.
-            </p>
-          </div>
-          <ProcessRoadmap />
-        </section>
-
-        {/* ================================================================= */}
-        {/* SECTION 6: PROVEN WORK CASE STUDIES                              */}
+        {/* SCENE 14: WORK / PORTFOLIO INSTALLATIONS (86% - 92%)              */}
         {/* ================================================================= */}
         <WorkSection onOpenAudit={openAuditWithService} />
 
         {/* ================================================================= */}
-        {/* SECTION 7: BEFORE / AFTER TRANSFORMATION & PRODUCT INTERFACES     */}
-        {/* ================================================================= */}
-        <section id="before-after" className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
-            <span className="font-mono text-xs text-teal-400 uppercase tracking-widest block">
-              METAMORPHOSIS // THE OPERATIONAL SHIFT
-            </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              The Cost of Inaction vs. The Speed of Ashaiva
-            </h2>
-            <p className="text-sm text-slate-300 font-sans">
-              Examine how modern business operations transform when manual friction is engineered out of the organization.
-            </p>
-          </div>
-          <BeforeAfterSlider />
-        </section>
-
-        <section id="interfaces" className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="mb-10 max-w-2xl space-y-2">
-            <span className="font-mono text-xs text-teal-400 uppercase tracking-widest block">
-              TACTILE ENVIRONMENTS // PRODUCT SUITE
-            </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              Operating System For Modern Scale
-            </h2>
-            <p className="text-sm text-slate-300 font-sans">
-              Experience the unified control layer: live CRM pipelines, autonomous inbox triage, AI agent sandboxes, and real-time latency monitors.
-            </p>
-          </div>
-          <InteractiveInterfaces />
-        </section>
-
-        <section id="industries" className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="mb-10 max-w-2xl space-y-2">
-            <span className="font-mono text-xs text-teal-400 uppercase tracking-widest block">
-              INDUSTRY ARCHITECTURES // CUSTOM FIT
-            </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              Engineered For Diverse Business Categories
-            </h2>
-            <p className="text-sm text-slate-300 font-sans">
-              From fast-scaling agencies and high-volume e-commerce to clinics and tech companies, ASHAIVA customizes every system to your exact workflow.
-            </p>
-          </div>
-          <IndustryShowcase onSelectIndustry={openAuditWithService} />
-        </section>
-
-        {/* ================================================================= */}
-        {/* SECTION 8: FOUNDER-LED STUDIO (FARHAN KHAN & MOHIT AGARWAL)       */}
+        {/* SCENE 15: TEAM / LEADERSHIP (FARHAN KHAN & MOHIT AGARWAL)         */}
+        {/* (92% - 96%)                                                       */}
         {/* ================================================================= */}
         <TeamSection />
 
         {/* ================================================================= */}
-        {/* SECTION 9: ROI CALCULATOR                                        */}
+        {/* SCENE 16: FINAL CTA & NIGHT CITYSCAPE (96% - 100%)                */}
         {/* ================================================================= */}
-        <section id="calculator" className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <RoiCalculator onOpenAudit={() => openAuditWithService()} />
-        </section>
-
-        {/* ================================================================= */}
-        {/* SECTION 10: CINEMATIC FINAL CTA (96% - 100%)                     */}
-        {/* ================================================================= */}
-        <section className="relative py-32 px-6 sm:px-8 max-w-7xl mx-auto text-center border-t border-white/[0.08] overflow-hidden">
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-            <span className="font-mono text-xs text-teal-400 tracking-widest uppercase block">
-              THE NEXT STEP // SECURE YOUR SYSTEM
+        <section
+          id="contact"
+          className="relative py-40 px-6 sm:px-12 max-w-7xl mx-auto text-center border-t border-white/[0.08] overflow-hidden"
+        >
+          <div className="relative z-10 max-w-3xl mx-auto space-y-8">
+            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
+              THE NEXT HORIZON // ARCHITECTURAL ENGAGEMENT
             </span>
-            <h2 className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              Your business already has the work.{' '}
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-sky-300">
-                We build the system that runs it.
-              </span>
+            <h2 className="editorial-title text-5xl sm:text-7xl lg:text-8xl text-warm-ivory tracking-tight leading-[0.94]">
+              BUILD <br />
+              <span className="text-gold font-serif italic">WHAT&apos;S NEXT.</span>
             </h2>
-            <p className="text-base text-slate-300 font-sans max-w-xl mx-auto leading-relaxed">
-              Stop letting manual tasks and slow response times throttle your revenue. Deploy sovereign, custom AI automation tailored to your exact stack.
+            <p className="editorial-sub text-base sm:text-lg text-warm-stone/80 max-w-xl mx-auto font-sans leading-relaxed">
+              Tell us what you want to automate, connect, or build. We engineer the sovereign systems that run it.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-5 pt-4">
               <button
                 onClick={() => openAuditWithService()}
-                className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-teal-400 text-obsidian-950 font-bold text-sm tracking-wider uppercase transition-all duration-300 hover:bg-teal-300 hover:shadow-[0_0_40px_rgba(45,212,191,0.5)] hover:scale-[1.02] active:scale-[0.98]"
+                className="group inline-flex items-center gap-2.5 px-9 py-4 rounded-sm bg-gold text-architectural-950 font-sans font-semibold text-xs tracking-widest uppercase transition-all duration-400 hover:bg-gold-light hover:shadow-[0_0_35px_rgba(200,169,126,0.4)]"
               >
-                <span>Automate Your Business</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>Start a Project</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
 
               <button
                 onClick={() => openAuditWithService('Strategy Call')}
-                className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-obsidian-850 border border-teal-500/30 text-teal-300 font-mono text-xs tracking-wider uppercase transition-all duration-300 hover:bg-teal-500/10 hover:border-teal-400"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-sm bg-architectural-900 border border-white/[0.1] text-warm-stone font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:border-gold/40 hover:text-warm-ivory"
               >
-                <span>Book a Strategy Call</span>
+                <span>Inquire Directly</span>
               </button>
             </div>
           </div>
         </section>
 
-        {/* Minimal Editorial Footer */}
+        {/* Minimalist Architectural Footer */}
         <Footer />
       </div>
 
-      {/* System Audit / Request Specification Modal */}
+      {/* Project Inquiry / Architecture Sprint Modal */}
       <SystemAuditModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
