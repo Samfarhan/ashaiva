@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -15,7 +15,7 @@ import { WorkSection } from '@/components/sections/WorkSection';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { SystemAuditModal } from '@/components/ui/SystemAuditModal';
 import { Footer } from '@/components/ui/Footer';
-import { ArrowUpRight, ArrowDown } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 // Dynamic import of 3D Daytime Architectural Canvas to prevent SSR hydration mismatches
 const Scene = dynamic(() => import('@/three/Scene').then((mod) => mod.Scene), {
@@ -47,12 +47,12 @@ export default function HomePage() {
   // Setup Lenis Smooth Inertial Scroll
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 0.95,
-      touchMultiplier: 1.4,
+      touchMultiplier: 1.3,
     });
 
     function raf(time: number) {
@@ -132,72 +132,72 @@ export default function HomePage() {
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 02 & 03: APPROACH THE BUILDING & TOWER SIGNAGE (15% - 28%)  */}
+        {/* SCENE 02 & 03: THE TOWER APPROACH (15% - 28%)                     */}
         {/* ================================================================= */}
         <section
           id="building"
           className="min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto"
         >
-          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
               <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-                01 // THE APPROACH · ASHAIVA CORPORATE TOWER
+                THE METROPOLITAN MONOLITH
               </span>
             </div>
             <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
               From the outside, modern commerce looks seamless.{' '}
-              <span className="text-gold font-serif italic">Inside, it runs on infrastructure.</span>
+              <span className="text-gold font-serif italic">Inside, it runs on silent architecture.</span>
             </h2>
             <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
-              Growing companies often suffer from invisible operational friction: disconnected software, delayed inboxes, and manual copy-paste bottlenecks. We engineer sovereign automated architectures that eliminate operational drag.
+              Growing companies often suffer from invisible operational friction: disconnected software, delayed inboxes, and manual copy-paste bottlenecks. We engineer sovereign automated architectures that quietly eliminate operational drag.
             </p>
           </div>
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 04 & 05: ENTER THROUGH THE GLASS & STUDIO FLOOR (28% - 46%) */}
+        {/* SCENE 04 & 05: THE CREATIVE STUDIO FLOOR (28% - 46%)              */}
         {/* ================================================================= */}
         <section
           id="studio"
           className="min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto"
         >
-          <div className="max-w-3xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+          <div className="max-w-3xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
               <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-                02 // THE STUDIO FLOOR · PHYSICAL GLASS ENTRY
+                THE PHYSICAL STUDIO FLOOR
               </span>
             </div>
             <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
-              A studio dedicated to{' '}
-              <span className="text-gold font-serif italic">systems discipline.</span>
+              Where complex engineering meets{' '}
+              <span className="text-gold font-serif italic">spatial discipline.</span>
             </h2>
             <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
-              Passing through the 3rd-floor glass facade reveals our workspace: where complex enterprise workflows are dissected, modeled, and transformed into autonomous digital pipelines.
+              Passing through the panoramic glass reveals our creative workspace: gallery walls hung with architectural topologies, real-time enterprise telemetry displays, and active collaborative design tables where workflows are transformed into autonomous systems.
             </p>
 
             <div className="p-4 rounded-lg bg-white/[0.04] border border-white/[0.08] inline-flex items-center gap-3 font-mono text-xs text-warm-stone/90">
               <span className="w-2 h-2 rounded-full bg-gold" />
-              <span>EXPLORE THE STUDIO: CLICK WORKSTATION, MONITOR, OR BLUEPRINT FOR SYSTEM SCHEMATICS</span>
+              <span>EXPLORE THE STUDIO: CLICK WORKSTATION, MONITORS, OR WALL BLUEPRINTS</span>
             </div>
           </div>
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 06 & 07: HUMAN MOMENT & WORKSTATION (46% - 58%)             */}
+        {/* SCENE 06 & 07: HUMAN PURPOSE & VELOCITY (46% - 58%)               */}
         {/* ================================================================= */}
         <section className="min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto">
-          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
               <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-                03 // THE HUMAN TOUCHPOINT · SINGLE-TOUCH CLARITY
+                HUMAN PURPOSE · MACHINE VELOCITY
               </span>
             </div>
             <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
-              Sophistication made{' '}
-              <span className="text-gold font-serif italic">effortlessly simple.</span>
+              Power made{' '}
+              <span className="text-gold font-serif italic">effortlessly quiet.</span>
             </h2>
             <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
               Real business systems should never feel complicated to the people using them. The true test of high-end engineering is creating an interface so intuitive that an entire enterprise runs through a single screen.
@@ -206,15 +206,14 @@ export default function HomePage() {
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 08, 09 & 10: PHONE TRANSITION & ASHAIVA DISCOVERED          */}
-        {/* (58% - 74%)                                                       */}
+        {/* SCENE 08, 09 & 10: THE MOBILE ECOSYSTEM (58% - 74%)                */}
         {/* ================================================================= */}
         <section className="min-h-screen flex flex-col justify-center items-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto text-center">
-          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
             <div className="flex items-center justify-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
               <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-                04 // THE PHONE INTERACTION · ASHAIVA DISCOVERED
+                THE MOBILE ECOSYSTEM
               </span>
             </div>
             <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
@@ -236,29 +235,28 @@ export default function HomePage() {
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 11, 12 & 13: SPATIAL SERVICES CAPABILITIES (74% - 86%)       */}
+        {/* SCENE 11, 12 & 13: CAPABILITIES (74% - 86%)                       */}
         {/* ================================================================= */}
         <div className="pointer-events-auto">
           <ServicesSection onOpenAudit={openAuditWithService} />
         </div>
 
         {/* ================================================================= */}
-        {/* SCENE 14: WORK / PORTFOLIO INSTALLATIONS (86% - 92%)              */}
+        {/* SCENE 14: SELECTED COMMISSIONS (86% - 92%)                        */}
         {/* ================================================================= */}
         <div className="pointer-events-auto">
           <WorkSection onOpenAudit={openAuditWithService} />
         </div>
 
         {/* ================================================================= */}
-        {/* SCENE 15: TEAM / LEADERSHIP (FARHAN KHAN & MOHIT AGARWAL)         */}
-        {/* (92% - 96%)                                                       */}
+        {/* SCENE 15: LEADERSHIP (FARHAN KHAN & MOHIT AGARWAL) (92% - 96%)    */}
         {/* ================================================================= */}
         <div className="pointer-events-auto">
           <TeamSection />
         </div>
 
         {/* ================================================================= */}
-        {/* SCENE 16: FINAL CTA & DAYLIGHT CITYSCAPE (96% - 100%)             */}
+        {/* SCENE 16: COMMISSIONING ARCHITECTURE (96% - 100%)                 */}
         {/* ================================================================= */}
         <section
           id="contact"
@@ -268,7 +266,7 @@ export default function HomePage() {
             <div className="flex items-center justify-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
               <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-                THE NEXT HORIZON // ARCHITECTURAL ENGAGEMENT
+                COMMISSIONING ARCHITECTURE
               </span>
             </div>
 

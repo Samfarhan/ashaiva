@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
@@ -17,11 +17,11 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
-    // Rich dark asphalt base
+    // Dark asphalt base
     ctx.fillStyle = '#22242a';
     ctx.fillRect(0, 0, 1024, 1024);
 
-    // Subtle asphalt grain texture
+    // Subtle grain texture
     ctx.fillStyle = '#2a2d35';
     for (let i = 0; i < 4000; i++) {
       const rx = Math.random() * 1024;
@@ -29,7 +29,7 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
       ctx.fillRect(rx, ry, 2, 2);
     }
 
-    // Double solid yellow center divider line
+    // Double solid yellow center divider
     ctx.strokeStyle = '#e6b840';
     ctx.lineWidth = 6;
     ctx.beginPath();
@@ -84,7 +84,6 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
         <boxGeometry args={[140, 0.22, 10]} />
         <meshStandardMaterial color="#cdc8bd" roughness={0.72} metalness={0.06} />
       </mesh>
-      {/* Granite Curb Lip */}
       <mesh position={[0, 0.09, 19.1]} receiveShadow>
         <boxGeometry args={[140, 0.24, 0.25]} />
         <meshStandardMaterial color="#88847d" roughness={0.8} />
@@ -109,12 +108,10 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
           <boxGeometry args={[34, 40, 32]} />
           <meshStandardMaterial color="#32353d" roughness={0.5} metalness={0.3} />
         </mesh>
-        {/* Glass Facade Overlay */}
         <mesh position={[0, 0, 16.1]}>
           <planeGeometry args={[33, 38]} />
           <meshStandardMaterial color="#6a8ca8" roughness={0.15} metalness={0.4} />
         </mesh>
-        {/* Horizontal Louver Bands */}
         {[-14, -7, 0, 7, 14].map((ly, idx) => (
           <mesh key={`west-louver-${idx}`} position={[0, ly, 16.2]} castShadow>
             <boxGeometry args={[33.5, 0.4, 0.3]} />
@@ -129,12 +126,10 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
           <boxGeometry args={[32, 48, 30]} />
           <meshStandardMaterial color="#d4cebe" roughness={0.7} metalness={0.08} />
         </mesh>
-        {/* Windows Grid */}
         <mesh position={[0, 0, 15.1]}>
           <planeGeometry args={[30, 44]} />
           <meshStandardMaterial color="#7094b0" roughness={0.15} metalness={0.35} />
         </mesh>
-        {/* Stone Vertical Piers */}
         {[-12, -6, 0, 6, 12].map((px, idx) => (
           <mesh key={`east-pier-${idx}`} position={[px, 0, 15.2]} castShadow>
             <boxGeometry args={[1.2, 47, 0.4]} />
@@ -143,24 +138,20 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
         ))}
       </group>
 
-      {/* Distant Background Metropolis Towers */}
+      {/* Distant Metropolis Towers */}
       <group position={[0, 0, -42]}>
-        {/* Distant Tower 1 */}
         <mesh position={[-50, 36, 0]} castShadow>
           <boxGeometry args={[28, 72, 28]} />
           <meshStandardMaterial color="#8ca4b8" roughness={0.3} metalness={0.3} />
         </mesh>
-        {/* Distant Tower 2 */}
         <mesh position={[-18, 42, -15]} castShadow>
           <boxGeometry args={[26, 84, 26]} />
           <meshStandardMaterial color="#9cb4c6" roughness={0.25} metalness={0.4} />
         </mesh>
-        {/* Distant Tower 3 */}
         <mesh position={[24, 38, -12]} castShadow>
           <boxGeometry args={[30, 76, 28]} />
           <meshStandardMaterial color="#8ea6ba" roughness={0.3} metalness={0.3} />
         </mesh>
-        {/* Distant Tower 4 */}
         <mesh position={[58, 34, 0]} castShadow>
           <boxGeometry args={[26, 68, 24]} />
           <meshStandardMaterial color="#94acc0" roughness={0.35} metalness={0.25} />
@@ -172,7 +163,6 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
       {/* =================================================================== */}
       {[-24, -16, 16, 24].map((tx, idx) => (
         <group key={`tree-${idx}`} position={[tx, 0.2, 16.5]}>
-          {/* Tree Pit Granite Border */}
           <mesh position={[0, 0.05, 0]}>
             <boxGeometry args={[2.0, 0.1, 2.0]} />
             <meshStandardMaterial color="#55514b" roughness={0.8} />
@@ -181,12 +171,10 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
             <boxGeometry args={[1.6, 0.11, 1.6]} />
             <meshStandardMaterial color="#382f27" roughness={0.9} />
           </mesh>
-          {/* Organic Trunk */}
           <mesh position={[0, 1.8, 0]} castShadow>
             <cylinderGeometry args={[0.14, 0.22, 3.6, 10]} />
             <meshStandardMaterial color="#423528" roughness={0.85} />
           </mesh>
-          {/* Realistic Multi-Cluster Canopy */}
           <mesh position={[0, 4.4, 0]} castShadow>
             <sphereGeometry args={[1.8, 12, 10]} />
             <meshStandardMaterial color="#34543b" roughness={0.78} />
@@ -207,17 +195,14 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
       {/* =================================================================== */}
       {[-28, -8, 8, 28].map((lx, idx) => (
         <group key={`light-pole-${idx}`} position={[lx, 0.2, 18.5]}>
-          {/* Vertical Pole */}
           <mesh position={[0, 3.2, 0]} castShadow>
             <cylinderGeometry args={[0.07, 0.1, 6.4, 12]} />
             <meshStandardMaterial color="#202228" metalness={0.9} roughness={0.25} />
           </mesh>
-          {/* Horizontal Cantilever Arm over Street */}
           <mesh position={[0, 6.35, 0.6]} rotation={[0.2, 0, 0]} castShadow>
             <boxGeometry args={[0.1, 0.12, 1.4]} />
             <meshStandardMaterial color="#202228" metalness={0.9} roughness={0.25} />
           </mesh>
-          {/* Fixture Head */}
           <mesh position={[0, 6.2, 1.2]}>
             <boxGeometry args={[0.22, 0.1, 0.5]} />
             <meshStandardMaterial color="#14151a" metalness={0.9} roughness={0.3} />
@@ -242,12 +227,10 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
       {/* =================================================================== */}
       {/* Executive Dark Sedan in Roadway Lane */}
       <group position={[-14, 0.6, 26]} rotation={[0, Math.PI / 2, 0]}>
-        {/* Chassis Body */}
         <mesh position={[0, 0.45, 0]} castShadow>
           <boxGeometry args={[4.6, 0.75, 1.85]} />
           <meshStandardMaterial color="#1a1c22" metalness={0.92} roughness={0.18} />
         </mesh>
-        {/* Greenhouse Cabin & Tinted Windows */}
         <mesh position={[-0.2, 1.05, 0]} castShadow>
           <boxGeometry args={[2.4, 0.6, 1.65]} />
           <meshPhysicalMaterial
@@ -258,7 +241,6 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
             ior={1.5}
           />
         </mesh>
-        {/* Headlights */}
         <mesh position={[2.25, 0.45, 0.6]}>
           <boxGeometry args={[0.12, 0.15, 0.4]} />
           <meshBasicMaterial color="#f0f6ff" />
@@ -267,7 +249,6 @@ export function CityScene({ scrollProgress }: CitySceneProps) {
           <boxGeometry args={[0.12, 0.15, 0.4]} />
           <meshBasicMaterial color="#f0f6ff" />
         </mesh>
-        {/* Alloy Wheels */}
         {[-1.4, 1.4].map((wx, i) =>
           [-0.95, 0.95].map((wz, j) => (
             <mesh

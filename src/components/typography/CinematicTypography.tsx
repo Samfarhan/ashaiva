@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, ArrowDown } from 'lucide-react';
@@ -11,7 +11,7 @@ interface CinematicTypographyProps {
 export function CinematicTypography({ scrollProgress, onOpenAudit }: CinematicTypographyProps) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
-  // Track mouse coordinates for subtle, luxury 3D card tilt & parallax
+  // Track pointer for subtle 3D tilt & parallax
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -25,16 +25,15 @@ export function CinematicTypography({ scrollProgress, onOpenAudit }: CinematicTy
 
   // Fade out smoothly as user scrolls toward the building (0.0 to 0.16)
   const opacity = Math.max(0, 1 - scrollProgress * 7.5);
-  const translateY = scrollProgress * 140;
+  const translateY = scrollProgress * 120;
 
-  // Kinetic typography calculations:
-  // Mouse tilt angles
-  const tiltX = -mouse.y * 7; // -7 to +7 deg
-  const tiltY = mouse.x * 9;  // -9 to +9 deg
-  const parallaxX = mouse.x * 12;
-  const parallaxY = mouse.y * 12;
+  // Kinetic typography parameters
+  const tiltX = -mouse.y * 6;
+  const tiltY = mouse.x * 8;
+  const parallaxX = mouse.x * 10;
+  const parallaxY = mouse.y * 10;
 
-  // Scroll tracking expansion for subtitle (from 0.25em to 0.45em)
+  // Dynamic tracking expansion on scroll
   const letterSpacing = `${0.25 + scrollProgress * 1.5}em`;
 
   if (opacity <= 0.02) return null;
@@ -48,14 +47,13 @@ export function CinematicTypography({ scrollProgress, onOpenAudit }: CinematicTy
       }}
       className="transition-opacity duration-300 pointer-events-auto"
     >
-      {/* 3D Kinetic Editorial Container */}
       <div
         style={{
           transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
           transformStyle: 'preserve-3d',
           transition: 'transform 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
-        className="editorial-panel backdrop-blur-3xl bg-[#07090e]/90 border border-white/[0.14] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)] relative overflow-hidden"
+        className="editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.14] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)] relative overflow-hidden"
       >
         {/* Subtle Ambient Light Sheen */}
         <div
@@ -68,7 +66,7 @@ export function CinematicTypography({ scrollProgress, onOpenAudit }: CinematicTy
         {/* Studio Identity Tag */}
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
           <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_10px_#c8a97e]" />
+            <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
             <span
               style={{ letterSpacing }}
               className="font-mono text-[11px] text-gold uppercase font-semibold transition-all duration-300"
@@ -109,7 +107,7 @@ export function CinematicTypography({ scrollProgress, onOpenAudit }: CinematicTy
             href="#building"
             className="inline-flex items-center gap-2.5 px-7 py-4 rounded-sm bg-white/[0.06] border border-white/[0.14] text-warm-ivory font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:bg-white/[0.12] hover:border-gold/40"
           >
-            <span>Explore Journey</span>
+            <span>Explore The Journey</span>
             <ArrowDown className="w-3.5 h-3.5 text-gold animate-bounce" />
           </a>
         </div>

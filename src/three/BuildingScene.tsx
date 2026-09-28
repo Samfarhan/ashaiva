@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
@@ -8,7 +8,7 @@ interface BuildingSceneProps {
 }
 
 export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
-  // Smoothly dissolve 3rd-floor glass as the camera passes through into the studio (around scroll 0.28 to 0.36)
+  // Smoothly dissolve 3rd-floor glass as the camera passes through into the studio (around scroll 0.26 to 0.36)
   const studioGlassOpacity = useMemo(() => {
     if (scrollProgress < 0.24) return 0.65;
     if (scrollProgress > 0.36) return 0.05;
@@ -25,11 +25,9 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
-    // Rich dark bronze brushed background
     ctx.fillStyle = '#141518';
     ctx.fillRect(0, 0, 1024, 256);
 
-    // Subtle brushed metallic horizontal lines
     ctx.strokeStyle = '#222329';
     ctx.lineWidth = 1;
     for (let y = 0; y < 256; y += 4) {
@@ -39,12 +37,10 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
       ctx.stroke();
     }
 
-    // Outer refined bronze border
     ctx.strokeStyle = '#c8a97e';
     ctx.lineWidth = 4;
     ctx.strokeRect(12, 12, 1000, 232);
 
-    // Primary serif wordmark
     ctx.fillStyle = '#f4ede2';
     ctx.font = '600 68px "Cinzel", "Times New Roman", serif';
     ctx.textAlign = 'center';
@@ -52,7 +48,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
     ctx.letterSpacing = '14px';
     ctx.fillText('A S H A I V A', 512, 105);
 
-    // Architectural subtitle
     ctx.fillStyle = '#c8a97e';
     ctx.font = '500 24px "Plus Jakarta Sans", sans-serif';
     ctx.letterSpacing = '8px';
@@ -96,7 +91,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
       {/* =================================================================== */}
       {/* 1. GROUND PODIUM & RECESSED LOBBY (Y = 0 to 6)                     */}
       {/* =================================================================== */}
-      {/* Travertine Ground Base & Terrace Steps */}
       <mesh position={[0, 0.25, 4.5]} receiveShadow>
         <boxGeometry args={[36, 0.5, 12]} />
         <meshStandardMaterial color="#d6d0c4" roughness={0.7} metalness={0.05} />
@@ -162,7 +156,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
           <boxGeometry args={[14.5, 0.35, 7.5]} />
           <meshStandardMaterial color="#181a20" metalness={0.85} roughness={0.3} />
         </mesh>
-        {/* Recessed Warm LED Soffit Downlights */}
         {[-4.5, -1.5, 1.5, 4.5].map((x, idx) => (
           <mesh key={`canopy-light-${idx}`} position={[x, -0.18, 0.5]}>
             <cylinderGeometry args={[0.35, 0.35, 0.04, 16]} />
@@ -190,7 +183,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
       {/* =================================================================== */}
       {/* 2. LEVEL 03: ASHAIVA STUDIO FLOOR & TERRACE (Y = 6 to 10.5)         */}
       {/* =================================================================== */}
-      {/* Terrace Slab Floor */}
       <mesh position={[0, 6.2, 3.5]} receiveShadow>
         <boxGeometry args={[30, 0.45, 8.5]} />
         <meshStandardMaterial color="#d4cebf" roughness={0.7} metalness={0.05} />
@@ -246,7 +238,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
           />
         </mesh>
 
-        {/* Studio Bronze Facade Mullions */}
         {[-12, -8, -4, 0, 4, 8, 12].map((x, idx) => (
           <mesh key={`studio-mullion-${idx}`} position={[x, 0, 0.04]} castShadow>
             <boxGeometry args={[0.12, 4.0, 0.16]} />
@@ -258,19 +249,16 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
       {/* =================================================================== */}
       {/* 3. TOWER FLOORS 04 TO 14: ARCHITECTURAL CURTAIN WALL (Y = 10.5 to 52)*/}
       {/* =================================================================== */}
-      {/* Main Structural Core & Mass */}
       <mesh position={[0, 31, -8]} castShadow receiveShadow>
         <boxGeometry args={[32, 41, 24]} />
         <meshStandardMaterial color="#ded7cc" roughness={0.7} metalness={0.08} />
       </mesh>
 
-      {/* Upper Architectural Setback on Floor 10 */}
       <mesh position={[0, 45, -7]} castShadow>
         <boxGeometry args={[27, 13, 21]} />
         <meshStandardMaterial color="#cfc7ba" roughness={0.65} metalness={0.08} />
       </mesh>
 
-      {/* Deep Vertical Architectural Aerodynamic Fins (Cast rich daylight shadows) */}
       {[-14, -10.5, -7, -3.5, 0, 3.5, 7, 10.5, 14].map((x, idx) => (
         <mesh key={`fin-${idx}`} position={[x, 31, 4.2]} castShadow>
           <boxGeometry args={[0.45, 41, 0.9]} />
@@ -282,7 +270,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
         </mesh>
       ))}
 
-      {/* Horizontal Dark Anodized Bronze Spandrels */}
       {[10.5, 14, 17.5, 21, 24.5, 28, 31.5, 35, 38.5, 42, 45.5, 49].map((y, idx) => (
         <mesh key={`spandrel-${idx}`} position={[0, y, 4.15]} castShadow>
           <boxGeometry args={[32, 0.45, 0.55]} />
@@ -290,7 +277,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
         </mesh>
       ))}
 
-      {/* Continuous Floor-to-Ceiling High-Performance Glass Bands */}
       {[12.2, 15.7, 19.2, 22.7, 26.2, 29.7, 33.2, 36.7, 40.2, 43.7, 47.2].map((y, idx) => (
         <mesh key={`window-band-${idx}`} position={[0, y, 4.05]}>
           <planeGeometry args={[31.2, 2.9]} />
@@ -311,7 +297,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
           <meshStandardMaterial color="#1a1c22" metalness={0.8} roughness={0.35} />
         </mesh>
 
-        {/* Louvered Screen Elements */}
         {[-1.8, -0.9, 0, 0.9, 1.8].map((ly, idx) => (
           <mesh key={`louver-${idx}`} position={[0, ly, 8.05]} castShadow>
             <boxGeometry args={[21.5, 0.2, 0.15]} />
@@ -319,7 +304,6 @@ export function BuildingScene({ scrollProgress }: BuildingSceneProps) {
           </mesh>
         ))}
 
-        {/* Architectural Rooftop Telecommunications Beacon */}
         <mesh position={[6, 4.5, 2]}>
           <cylinderGeometry args={[0.08, 0.18, 5, 12]} />
           <meshStandardMaterial color="#40424a" metalness={0.9} roughness={0.2} />

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
@@ -23,7 +23,7 @@ export function Scene({ scrollProgress, onSelectHotspot, onPhoneClick }: ScenePr
       <Canvas
         shadows
         dpr={[1, 1.5]}
-        camera={{ position: [0, 18.5, 48], fov: 44, near: 0.1, far: 240 }}
+        camera={{ position: [0, 18.0, 48], fov: 44, near: 0.1, far: 240 }}
         gl={{
           antialias: true,
           alpha: false,
@@ -37,25 +37,25 @@ export function Scene({ scrollProgress, onSelectHotspot, onPhoneClick }: ScenePr
           {/* Atmospheric Daytime Sky & Fog */}
           <Environment />
 
-          {/* Architectural Sunlight & Ambient Lighting */}
+          {/* Natural Warm Architectural Sunlight & Ambient Lighting */}
           <Lighting scrollProgress={scrollProgress} />
 
-          {/* Smooth Cinematic Inertial Camera Controller */}
+          {/* Continuous Catmull-Rom Spline Camera Rig */}
           <CameraRig scrollProgress={scrollProgress} />
 
-          {/* Realistic Daytime City & Street Environment */}
+          {/* Photorealistic Daytime City Environment */}
           <CityScene scrollProgress={scrollProgress} />
 
           {/* Dominant Ashaiva Corporate Tower */}
           <BuildingScene scrollProgress={scrollProgress} />
 
-          {/* 3rd-Floor Studio Interior & Seated Executive Human */}
+          {/* 3rd-Floor Studio Floor with Fine Art Posters, Live Data Boards & Models */}
           <OfficeScene
             scrollProgress={scrollProgress}
             onSelectHotspot={onSelectHotspot}
           />
 
-          {/* Interactive Titanium Smartphone with Realtime Enterprise Conduit */}
+          {/* Interactive Titanium Smartphone */}
           <PhoneScene
             scrollProgress={scrollProgress}
             onPhoneClick={onPhoneClick}

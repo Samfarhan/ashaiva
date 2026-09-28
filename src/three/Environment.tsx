@@ -1,19 +1,17 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
-import * as THREE from 'three';
 
 export function Environment() {
   return (
     <>
-      {/* Daytime Atmospheric Sky Color */}
+      {/* Warm natural daylight sky color */}
       <color attach="background" args={['#dce5ed']} />
 
-      {/* Realistic Daytime Atmospheric Fog */}
-      {/* Near 30m, Far 140m gives clear foreground clarity and realistic distant city haze */}
+      {/* Atmospheric depth haze: clean foreground clarity with soft distant metropolis fade */}
       <fog attach="fog" args={['#d8e2eb', 25, 140]} />
 
-      {/* Subtle Sky Hemisphere Ground Bounce */}
+      {/* Subtle sky dome light */}
       <hemisphereLight
         color="#f2f6fa"
         groundColor="#9e988c"

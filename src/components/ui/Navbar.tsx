@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
@@ -23,7 +23,7 @@ export function Navbar({ onOpenAudit }: NavbarProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
         scrolled
-          ? 'bg-[#07090e]/90 backdrop-blur-2xl border-b border-white/[0.1] py-4 shadow-[0_15px_40px_rgba(0,0,0,0.6)]'
+          ? 'bg-[#07090e]/92 backdrop-blur-2xl border-b border-white/[0.1] py-4 shadow-[0_15px_40px_rgba(0,0,0,0.6)]'
           : 'bg-transparent py-7 border-b border-transparent'
       }`}
     >
@@ -50,25 +50,25 @@ export function Navbar({ onOpenAudit }: NavbarProps) {
             href="#studio"
             className="hover:text-gold transition-colors duration-200"
           >
-            Studio Floor
+            The Studio
           </a>
           <a
             href="#services"
             className="hover:text-gold transition-colors duration-200"
           >
-            Systems
+            Capabilities
           </a>
           <a
             href="#work"
             className="hover:text-gold transition-colors duration-200"
           >
-            Selected Work
+            Commissions
           </a>
           <a
             href="#team"
             className="hover:text-gold transition-colors duration-200"
           >
-            Founders
+            Leadership
           </a>
           <a
             href="#contact"
@@ -120,28 +120,28 @@ export function Navbar({ onOpenAudit }: NavbarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-gold transition-colors"
             >
-              Studio Floor
+              The Studio
             </a>
             <a
               href="#services"
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-gold transition-colors"
             >
-              Systems
+              Capabilities
             </a>
             <a
               href="#work"
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-gold transition-colors"
             >
-              Selected Work
+              Commissions
             </a>
             <a
               href="#team"
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-gold transition-colors"
             >
-              Founders
+              Leadership
             </a>
             <a
               href="#contact"

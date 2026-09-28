@@ -1,8 +1,7 @@
-'use client';
+﻿'use client';
 
 import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
 
 interface PhoneSceneProps {
   scrollProgress: number;
@@ -10,7 +9,6 @@ interface PhoneSceneProps {
 }
 
 export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
-  // Only render when camera is near the desk and phone (scroll 0.45 to 0.85)
   const isVisible = scrollProgress > 0.44 && scrollProgress < 0.86;
   const screenMeshRef = useRef<THREE.Mesh>(null);
 
@@ -23,18 +21,18 @@ export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
-    // True OLED Deep Black Background
+    // True OLED Deep Black
     ctx.fillStyle = '#06070a';
     ctx.fillRect(0, 0, 1080, 2340);
 
-    // Subtle luxury background gradient glow
+    // Warm champagne subtle background glow
     const grad = ctx.createRadialGradient(540, 700, 50, 540, 700, 600);
     grad.addColorStop(0, 'rgba(200, 169, 126, 0.08)');
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 1080, 2340);
 
-    // 1. Status Bar (Time, Dynamic Island, Battery)
+    // 1. Status Bar
     ctx.fillStyle = '#f5f3ee';
     ctx.font = '600 48px "Plus Jakarta Sans", sans-serif';
     ctx.fillText('09:41', 110, 145);
@@ -45,7 +43,7 @@ export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
     ctx.roundRect(390, 85, 300, 90, 45);
     ctx.fill();
 
-    // 5G & Battery icon
+    // 5G & Battery
     ctx.fillStyle = '#f5f3ee';
     ctx.font = '500 40px "JetBrains Mono", monospace';
     ctx.fillText('5G  100%', 810, 145);
@@ -98,7 +96,6 @@ export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
     ctx.font = '700 42px "Cinzel", serif';
     ctx.fillText('Active Agent Clusters', 130, 940);
 
-    // Agent items
     const agents = [
       { name: 'Lead Intake & Scoring Agent', time: '1.2s', status: 'ACTIVE' },
       { name: 'Financial Reconciliation Bot', time: '0.4s', status: 'SYNCHED' },
@@ -190,7 +187,6 @@ export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
           <boxGeometry args={[0.03, 0.038, 0.0028]} />
           <meshStandardMaterial color="#1a1c22" roughness={0.3} metalness={0.8} />
         </mesh>
-        {/* Three Optical Lenses */}
         {[
           [-0.007, 0.009],
           [0.007, 0.009],
