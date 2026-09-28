@@ -15,7 +15,7 @@ import { WorkSection } from '@/components/sections/WorkSection';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { SystemAuditModal } from '@/components/ui/SystemAuditModal';
 import { Footer } from '@/components/ui/Footer';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowDown } from 'lucide-react';
 
 // Dynamic import of 3D Daytime Architectural Canvas to prevent SSR hydration mismatches
 const Scene = dynamic(() => import('@/three/Scene').then((mod) => mod.Scene), {
@@ -92,7 +92,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-architectural-950 text-warm-ivory overflow-x-hidden selection:bg-gold-dim selection:text-gold-light font-sans">
+    <main className="relative min-h-screen bg-architectural-950 text-warm-ivory overflow-x-hidden selection:bg-gold selection:text-architectural-950 font-sans">
       {/* Precision Custom Cursor */}
       <CustomCursor />
 
@@ -109,19 +109,19 @@ export default function HomePage() {
         onPhoneClick={() => setPhoneExperienceOpen(true)}
       />
 
-      {/* Minimalist Navigation */}
+      {/* Minimalist Architectural Navigation */}
       <Navbar onOpenAudit={() => openAuditWithService()} />
 
       {/* =================================================================== */}
       {/* CONTINUOUS CAMERA STORYBOARD DOM SECTIONS                           */}
       {/* =================================================================== */}
-      <div className="relative z-10">
+      <div className="relative z-10 pointer-events-none">
         {/* ================================================================= */}
         {/* SCENE 01: THE CITY (ESTABLISHING SHOT, 0% - 15%)                  */}
         {/* ================================================================= */}
         <section
           id="city"
-          className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pt-28 pb-20"
+          className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pt-28 pb-20 pointer-events-auto"
         >
           <div className="max-w-3xl">
             <CinematicTypography
@@ -136,17 +136,20 @@ export default function HomePage() {
         {/* ================================================================= */}
         <section
           id="building"
-          className="min-h-[90vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]"
+          className="min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto"
         >
-          <div className="max-w-2xl space-y-6">
-            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              01 // THE APPROACH · ASHAIVA CORPORATE TOWER
-            </span>
-            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
+              <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
+                01 // THE APPROACH · ASHAIVA CORPORATE TOWER
+              </span>
+            </div>
+            <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
               From the outside, modern commerce looks seamless.{' '}
-              <span className="text-gold">Inside, it runs on infrastructure.</span>
+              <span className="text-gold font-serif italic">Inside, it runs on infrastructure.</span>
             </h2>
-            <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
+            <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
               Growing companies often suffer from invisible operational friction: disconnected software, delayed inboxes, and manual copy-paste bottlenecks. We engineer sovereign automated architectures that eliminate operational drag.
             </p>
           </div>
@@ -157,23 +160,26 @@ export default function HomePage() {
         {/* ================================================================= */}
         <section
           id="studio"
-          className="min-h-[95vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]"
+          className="min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto"
         >
-          <div className="max-w-3xl space-y-6">
-            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              02 // THE STUDIO FLOOR · PHYSICAL GLASS ENTRY
-            </span>
-            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+          <div className="max-w-3xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
+              <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
+                02 // THE STUDIO FLOOR · PHYSICAL GLASS ENTRY
+              </span>
+            </div>
+            <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
               A studio dedicated to{' '}
-              <span className="text-gold">systems discipline.</span>
+              <span className="text-gold font-serif italic">systems discipline.</span>
             </h2>
-            <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
+            <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
               Passing through the 3rd-floor glass facade reveals our workspace: where complex enterprise workflows are dissected, modeled, and transformed into autonomous digital pipelines.
             </p>
 
-            <div className="p-4 rounded-sm bg-white/[0.04] border border-white/[0.08] inline-flex items-center gap-3 font-mono text-xs text-warm-stone/70">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-              <span>EXPLORE THE STUDIO: CLICK WORKSTATION, MONITOR, OR WHITEBOARD FOR BLUEPRINTS</span>
+            <div className="p-4 rounded-lg bg-white/[0.04] border border-white/[0.08] inline-flex items-center gap-3 font-mono text-xs text-warm-stone/90">
+              <span className="w-2 h-2 rounded-full bg-gold" />
+              <span>EXPLORE THE STUDIO: CLICK WORKSTATION, MONITOR, OR BLUEPRINT FOR SYSTEM SCHEMATICS</span>
             </div>
           </div>
         </section>
@@ -181,16 +187,19 @@ export default function HomePage() {
         {/* ================================================================= */}
         {/* SCENE 06 & 07: HUMAN MOMENT & WORKSTATION (46% - 58%)             */}
         {/* ================================================================= */}
-        <section className="min-h-[85vh] flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06]">
-          <div className="max-w-2xl space-y-6">
-            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              03 // THE HUMAN TOUCHPOINT · SINGLE-TOUCH CLARITY
-            </span>
-            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+        <section className="min-h-screen flex flex-col justify-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto">
+          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
+              <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
+                03 // THE HUMAN TOUCHPOINT · SINGLE-TOUCH CLARITY
+              </span>
+            </div>
+            <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
               Sophistication made{' '}
-              <span className="text-gold">effortlessly simple.</span>
+              <span className="text-gold font-serif italic">effortlessly simple.</span>
             </h2>
-            <p className="editorial-sub text-base text-warm-stone/80 font-sans leading-relaxed">
+            <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
               Real business systems should never feel complicated to the people using them. The true test of high-end engineering is creating an interface so intuitive that an entire enterprise runs through a single screen.
             </p>
           </div>
@@ -200,85 +209,101 @@ export default function HomePage() {
         {/* SCENE 08, 09 & 10: PHONE TRANSITION & ASHAIVA DISCOVERED          */}
         {/* (58% - 74%)                                                       */}
         {/* ================================================================= */}
-        <section className="min-h-screen flex flex-col justify-center items-center px-6 sm:px-12 max-w-7xl mx-auto border-t border-white/[0.06] text-center">
-          <div className="max-w-2xl space-y-6">
-            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              04 // THE PHONE INTERACTION · ASHAIVA DISCOVERED
-            </span>
-            <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+        <section className="min-h-screen flex flex-col justify-center items-center px-6 sm:px-12 max-w-7xl mx-auto pointer-events-auto text-center">
+          <div className="max-w-2xl editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.8)] space-y-6">
+            <div className="flex items-center justify-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
+              <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
+                04 // THE PHONE INTERACTION · ASHAIVA DISCOVERED
+              </span>
+            </div>
+            <h2 className="editorial-title text-3xl sm:text-5xl lg:text-6xl text-warm-ivory tracking-tight leading-[1.05]">
               Entering the digital core of{' '}
               <span className="font-serif italic text-gold">Ashaiva.</span>
             </h2>
-            <p className="editorial-sub text-base text-warm-stone/80 max-w-xl mx-auto font-sans leading-relaxed">
+            <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 max-w-xl mx-auto font-sans leading-relaxed">
               As the lens approaches the smartphone screen, the physical studio yields to our digital craft: sovereign AI agents, workflow architectures, and bespoke web products.
             </p>
 
             <button
               onClick={() => setPhoneExperienceOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gold/10 border border-gold/40 text-gold font-mono text-xs tracking-widest uppercase hover:bg-gold hover:text-architectural-950 transition-all duration-300"
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-sm bg-gold text-architectural-950 font-sans font-bold text-xs tracking-widest uppercase hover:bg-gold-light hover:shadow-[0_0_25px_rgba(200,169,126,0.4)] transition-all duration-300"
             >
               <span>Explore Mobile Conduit</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
         </section>
 
         {/* ================================================================= */}
-        {/* SCENE 11, 12 & 13: EXIT PHONE & SPATIAL SERVICES (74% - 86%)      */}
+        {/* SCENE 11, 12 & 13: SPATIAL SERVICES CAPABILITIES (74% - 86%)       */}
         {/* ================================================================= */}
-        <ServicesSection onOpenAudit={openAuditWithService} />
+        <div className="pointer-events-auto">
+          <ServicesSection onOpenAudit={openAuditWithService} />
+        </div>
 
         {/* ================================================================= */}
         {/* SCENE 14: WORK / PORTFOLIO INSTALLATIONS (86% - 92%)              */}
         {/* ================================================================= */}
-        <WorkSection onOpenAudit={openAuditWithService} />
+        <div className="pointer-events-auto">
+          <WorkSection onOpenAudit={openAuditWithService} />
+        </div>
 
         {/* ================================================================= */}
         {/* SCENE 15: TEAM / LEADERSHIP (FARHAN KHAN & MOHIT AGARWAL)         */}
         {/* (92% - 96%)                                                       */}
         {/* ================================================================= */}
-        <TeamSection />
+        <div className="pointer-events-auto">
+          <TeamSection />
+        </div>
 
         {/* ================================================================= */}
         {/* SCENE 16: FINAL CTA & DAYLIGHT CITYSCAPE (96% - 100%)             */}
         {/* ================================================================= */}
         <section
           id="contact"
-          className="relative py-40 px-6 sm:px-12 max-w-7xl mx-auto text-center border-t border-white/[0.08] overflow-hidden"
+          className="relative py-32 px-6 sm:px-12 max-w-7xl mx-auto text-center pointer-events-auto"
         >
-          <div className="relative z-10 max-w-3xl mx-auto space-y-8">
-            <span className="font-mono text-[10px] text-gold tracking-[0.25em] uppercase block">
-              THE NEXT HORIZON // ARCHITECTURAL ENGAGEMENT
-            </span>
-            <h2 className="editorial-title text-5xl sm:text-7xl lg:text-8xl text-warm-ivory tracking-tight leading-[0.94]">
+          <div className="editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-10 sm:p-16 shadow-[0_30px_90px_rgba(0,0,0,0.85)] max-w-3xl mx-auto space-y-8">
+            <div className="flex items-center justify-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
+              <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
+                THE NEXT HORIZON // ARCHITECTURAL ENGAGEMENT
+              </span>
+            </div>
+
+            <h2 className="editorial-title text-4xl sm:text-6xl lg:text-7xl text-warm-ivory tracking-tight leading-[0.98]">
               HAVE A SYSTEM <br />
               <span className="text-gold font-serif italic">WORTH BUILDING?</span>
             </h2>
-            <p className="editorial-sub text-base sm:text-lg text-warm-stone/80 max-w-xl mx-auto font-sans leading-relaxed">
-              Tell us what you want to automate, connect or build.
+
+            <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 max-w-xl mx-auto font-sans leading-relaxed">
+              Tell us what you want to automate, connect or build. Our founders respond within 24 hours.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-5 pt-4">
               <button
                 onClick={() => openAuditWithService()}
-                className="group inline-flex items-center gap-2.5 px-9 py-4 rounded-sm bg-gold text-architectural-950 font-sans font-semibold text-xs tracking-widest uppercase transition-all duration-400 hover:bg-gold-light hover:shadow-[0_0_35px_rgba(200,169,126,0.4)]"
+                className="group inline-flex items-center gap-3 px-9 py-4 rounded-sm bg-gold text-architectural-950 font-sans font-bold text-xs tracking-widest uppercase transition-all duration-300 hover:bg-gold-light hover:shadow-[0_0_35px_rgba(200,169,126,0.4)]"
               >
                 <span>Start a Project</span>
-                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
 
               <button
                 onClick={() => openAuditWithService('Strategy Call')}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-sm bg-architectural-900 border border-white/[0.12] text-warm-stone font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:border-gold/40 hover:text-warm-ivory"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-sm bg-white/[0.04] border border-white/[0.14] text-warm-ivory font-mono text-xs tracking-widest uppercase transition-all duration-300 hover:bg-white/[0.08] hover:border-gold/40"
               >
-                <span>Let&apos;s Talk</span>
+                <span>Book Strategy Call</span>
               </button>
             </div>
           </div>
         </section>
 
         {/* Minimalist Architectural Footer */}
-        <Footer />
+        <div className="pointer-events-auto">
+          <Footer />
+        </div>
       </div>
 
       {/* Interactive Office Hotspot Modal */}
@@ -307,4 +332,3 @@ export default function HomePage() {
     </main>
   );
 }
-

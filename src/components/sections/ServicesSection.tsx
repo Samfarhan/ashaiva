@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { servicesData, ServiceItem } from '@/data/services';
-import { ArrowUpRight, Cpu, Layers, Zap, Bot, Database, Globe, Lock, Terminal, Activity } from 'lucide-react';
+import { ArrowUpRight, Check } from 'lucide-react';
 
 interface ServicesSectionProps {
   onOpenAudit: (serviceTitle?: string) => void;
@@ -13,117 +13,118 @@ export function ServicesSection({ onOpenAudit }: ServicesSectionProps) {
   const activeService = servicesData.find(s => s.id === activeServiceId) || servicesData[0];
 
   return (
-    <section id="services" className="py-28 px-6 sm:px-8 max-w-7xl mx-auto border-t border-white/[0.08] relative z-10">
-      <div className="space-y-4 mb-14 max-w-3xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 font-mono text-xs tracking-widest uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-          <span>FULL AUTOMATION SUITE // 10 CORE CAPABILITIES</span>
+    <section id="services" className="py-28 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
+      <div className="editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
+        {/* Section Header */}
+        <div className="space-y-4 mb-14 max-w-3xl">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
+            <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
+              CAPABILITIES // 10 CORE DISCIPLINES
+            </span>
+          </div>
+
+          <h2 className="editorial-title text-4xl sm:text-6xl text-warm-ivory tracking-tight">
+            Architectural Systems.{' '}
+            <span className="text-gold font-serif italic">Engineered for Scale.</span>
+          </h2>
+
+          <p className="editorial-sub text-base sm:text-lg text-warm-stone/90 font-sans leading-relaxed">
+            We build sovereign digital infrastructure that automates repetitive workflows, connects siloed enterprise software, and delivers exceptional web products.
+          </p>
         </div>
-        <h2 className="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-none">
-          Systems Engineered For{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-teal-200 to-sky-300">
-            Modern Scale.
-          </span>
-        </h2>
-        <p className="text-base text-slate-300 font-sans leading-relaxed">
-          From autonomous multi-agent networks to custom WebGL applications, we engineer production-grade digital architecture tailored to your operational stack.
-        </p>
-      </div>
 
-      {/* 10 Services Interactive Explorer Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: 10 Service Titles List */}
-        <div className="lg:col-span-6 space-y-2">
-          {servicesData.map(service => {
-            const isActive = service.id === activeServiceId;
-            return (
-              <button
-                key={service.id}
-                onClick={() => setActiveServiceId(service.id)}
-                className={`w-full text-left p-5 rounded-xl transition-all duration-300 flex items-center justify-between border ${
-                  isActive
-                    ? 'bg-obsidian-900 border-teal-500/50 shadow-[0_0_25px_rgba(45,212,191,0.15)] translate-x-2'
-                    : 'bg-obsidian-950/60 border-white/[0.06] hover:border-teal-500/30 hover:bg-obsidian-900/40'
-                }`}
-              >
-                <div className="flex items-center gap-4">
-                  <span className={`font-mono text-xs font-bold ${isActive ? 'text-teal-400' : 'text-slate-500'}`}>
-                    {service.number}
-                  </span>
-                  <span className={`font-display font-bold text-base tracking-tight ${isActive ? 'text-white' : 'text-slate-300'}`}>
-                    {service.title}
-                  </span>
-                </div>
+        {/* 10 Services Interactive Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
+          {/* Left Column: Services Navigation Dossier */}
+          <div className="lg:col-span-5 space-y-2">
+            {servicesData.map(service => {
+              const isActive = service.id === activeServiceId;
+              return (
+                <button
+                  key={service.id}
+                  onClick={() => setActiveServiceId(service.id)}
+                  className={`w-full text-left p-4 sm:p-5 rounded-lg transition-all duration-300 flex items-center justify-between border ${
+                    isActive
+                      ? 'bg-gold/10 border-gold/60 shadow-[0_0_25px_rgba(200,169,126,0.18)] translate-x-2'
+                      : 'bg-white/[0.02] border-white/[0.08] hover:border-gold/30 hover:bg-white/[0.05]'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className={`font-mono text-xs font-bold ${isActive ? 'text-gold' : 'text-warm-stone/60'}`}>
+                      {service.number}
+                    </span>
+                    <span className={`font-sans font-semibold text-sm sm:text-base tracking-tight ${isActive ? 'text-warm-ivory' : 'text-warm-stone/80'}`}>
+                      {service.title}
+                    </span>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-[10px] text-slate-500 uppercase tracking-widest hidden sm:inline">
+                  <span className="font-mono text-[10px] text-warm-stone/60 uppercase tracking-widest hidden sm:inline">
                     {service.category}
                   </span>
-                  <ArrowUpRight className={`w-4 h-4 transition-transform duration-300 ${isActive ? 'text-teal-400 translate-x-0.5 -translate-y-0.5' : 'text-slate-600'}`} />
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                </button>
+              );
+            })}
+          </div>
 
-        {/* Right Column: Active Service Interactive Card & Motion Graphic Visual */}
-        <div className="lg:col-span-6 sticky top-28">
-          <div className="p-8 sm:p-10 rounded-2xl bg-obsidian-900/95 border border-teal-500/40 shadow-2xl relative overflow-hidden space-y-6">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-sky-400" />
-            
-            <div className="flex items-center justify-between font-mono text-xs">
-              <span className="px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 font-bold uppercase">
-                CAPABILITY // {activeService.number}
+          {/* Right Column: Active Service Architectural Dossier */}
+          <div className="lg:col-span-7 p-8 sm:p-12 rounded-xl bg-white/[0.03] border border-white/[0.1] relative">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
+              <span className="font-mono text-xs text-gold tracking-widest uppercase">
+                SPECIFICATION // {activeService.number}
               </span>
-              <span className="text-slate-400">{activeService.category}</span>
+              <span className="font-mono text-xs text-warm-stone/70 tracking-widest uppercase">
+                {activeService.category}
+              </span>
             </div>
 
-            <h3 className="font-display font-extrabold text-3xl text-white tracking-tight">
+            <h3 className="editorial-title text-3xl sm:text-4xl text-warm-ivory tracking-tight mb-4">
               {activeService.title}
             </h3>
 
-            <p className="text-base text-slate-300 font-sans leading-relaxed">
+            <p className="editorial-sub text-base text-warm-stone/90 font-sans leading-relaxed mb-8">
               {activeService.description}
             </p>
 
-            {/* Motion Graphic Diagram Box */}
-            <div className="p-6 rounded-xl bg-obsidian-950 border border-white/[0.08] relative overflow-hidden space-y-3">
-              <div className="flex items-center justify-between font-mono text-[11px] text-slate-400 border-b border-white/[0.06] pb-3">
-                <div className="flex items-center gap-2">
-                  <Cpu className="w-3.5 h-3.5 text-teal-400 animate-spin" />
-                  <span>VISUALIZATION ENGINE</span>
-                </div>
-                <span className="text-teal-400 font-mono">ACTIVE // RUNTIME</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 pt-1">
+            {/* Core Architectural Deliverables */}
+            <div className="space-y-3 mb-8">
+              <span className="font-mono text-[11px] text-gold tracking-widest uppercase block mb-3 font-semibold">
+                SYSTEM ARCHITECTURE &amp; DELIVERABLES
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {activeService.features.map((feat, idx) => (
-                  <div key={feat} className="flex items-center gap-2 font-mono text-xs text-slate-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+                  <div key={idx} className="flex items-center gap-3 font-sans text-sm text-warm-ivory/90">
+                    <span className="w-4 h-4 rounded-full bg-gold/15 flex items-center justify-center text-gold shrink-0">
+                      <Check className="w-2.5 h-2.5" />
+                    </span>
                     <span>{feat}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Tech Stack Pills & CTA */}
-            <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between gap-4">
-              <div className="flex flex-wrap gap-1.5">
-                {activeService.techStack.map(t => (
-                  <span key={t} className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/[0.08] font-mono text-[11px] text-slate-400">
-                    {t}
+            {/* Tech Stack Conduits */}
+            <div className="space-y-3 mb-10 pt-6 border-t border-white/[0.08]">
+              <span className="font-mono text-[11px] text-warm-stone/70 tracking-widest uppercase block mb-2">
+                DEPLOYED TECHNOLOGIES
+              </span>
+              <div className="flex flex-wrap gap-2 font-mono text-xs text-warm-stone">
+                {activeService.techStack.map((tech, idx) => (
+                  <span key={idx} className="px-3 py-1.5 rounded-sm bg-white/[0.04] border border-white/[0.08]">
+                    {tech}
                   </span>
                 ))}
               </div>
-
-              <button
-                onClick={() => onOpenAudit(activeService.title)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-teal-400 text-obsidian-950 font-bold font-mono text-xs tracking-wider uppercase transition-all duration-300 hover:bg-teal-300 hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] whitespace-nowrap"
-              >
-                <span>Deploy</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </button>
             </div>
+
+            {/* Inquire CTA */}
+            <button
+              onClick={() => onOpenAudit(activeService.title)}
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-sm bg-gold text-architectural-950 font-sans font-bold text-xs tracking-widest uppercase transition-all duration-300 hover:bg-gold-light hover:shadow-[0_0_25px_rgba(200,169,126,0.4)] active:scale-[0.98]"
+            >
+              <span>Inquire About This System</span>
+              <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </button>
           </div>
         </div>
       </div>

@@ -3,8 +3,8 @@
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Lighting } from './Lighting';
 import { Environment } from './Environment';
+import { Lighting } from './Lighting';
 import { CameraRig } from './CameraRig';
 import { CityScene } from './CityScene';
 import { BuildingScene } from './BuildingScene';
@@ -19,34 +19,43 @@ interface SceneProps {
 
 export function Scene({ scrollProgress, onSelectHotspot, onPhoneClick }: SceneProps) {
   return (
-    <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
+    <div className="fixed inset-0 pointer-events-auto z-0 overflow-hidden bg-[#dce5ed]">
       <Canvas
-        camera={{ position: [0, 18.5, 48.0], fov: 44 }}
-        dpr={[1, 1.75]}
+        shadows
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 18.5, 48], fov: 44, near: 0.1, far: 240 }}
         gl={{
           antialias: true,
-          alpha: true,
+          alpha: false,
           powerPreference: 'high-performance',
-          stencil: false,
-          depth: true,
-        }}
-        onCreated={({ scene, gl }) => {
-          scene.fog = new THREE.FogExp2('#b8d6ee', 0.0075);
-          gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.12;
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.05,
         }}
         className="w-full h-full"
       >
         <Suspense fallback={null}>
-          <Lighting />
+          {/* Atmospheric Daytime Sky & Fog */}
           <Environment />
+
+          {/* Architectural Sunlight & Ambient Lighting */}
+          <Lighting scrollProgress={scrollProgress} />
+
+          {/* Smooth Cinematic Inertial Camera Controller */}
           <CameraRig scrollProgress={scrollProgress} />
+
+          {/* Realistic Daytime City & Street Environment */}
           <CityScene scrollProgress={scrollProgress} />
+
+          {/* Dominant Ashaiva Corporate Tower */}
           <BuildingScene scrollProgress={scrollProgress} />
+
+          {/* 3rd-Floor Studio Interior & Seated Executive Human */}
           <OfficeScene
             scrollProgress={scrollProgress}
             onSelectHotspot={onSelectHotspot}
           />
+
+          {/* Interactive Titanium Smartphone with Realtime Enterprise Conduit */}
           <PhoneScene
             scrollProgress={scrollProgress}
             onPhoneClick={onPhoneClick}

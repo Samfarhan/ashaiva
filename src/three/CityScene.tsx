@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import React, { useMemo } from 'react';
 import * as THREE from 'three';
 
 interface CitySceneProps {
@@ -9,247 +8,304 @@ interface CitySceneProps {
 }
 
 export function CityScene({ scrollProgress }: CitySceneProps) {
-  const trafficGroup = useRef<THREE.Group>(null);
-  const pedestriansGroup = useRef<THREE.Group>(null);
-  const foliageGroup = useRef<THREE.Group>(null);
-
-  useFrame((state, delta) => {
-    if (trafficGroup.current) {
-      trafficGroup.current.children.forEach((car) => {
-        const speed = car.userData.speed || 5;
-        const dir = car.userData.dir || 1;
-        car.position.x += speed * dir * delta;
-        if (dir > 0 && car.position.x > 60) car.position.x = -60;
-        if (dir < 0 && car.position.x < -60) car.position.x = 60;
-      });
-    }
-
-    if (pedestriansGroup.current) {
-      pedestriansGroup.current.children.forEach((ped) => {
-        const speed = ped.userData.speed || 1.2;
-        const dir = ped.userData.dir || 1;
-        ped.position.x += speed * dir * delta;
-        if (dir > 0 && ped.position.x > 35) ped.position.x = -35;
-        if (dir < 0 && ped.position.x < -35) ped.position.x = 35;
-      });
-    }
-
-    if (foliageGroup.current) {
-      const time = state.clock.getElapsedTime();
-      foliageGroup.current.children.forEach((tree, idx) => {
-        tree.rotation.z = Math.sin(time * 1.5 + idx) * 0.035;
-        tree.rotation.x = Math.cos(time * 1.2 + idx) * 0.025;
-      });
-    }
-  });
-
-  const dayTowerTexture = useMemo(() => {
+  // Roadway markings texture (Crosswalks, dashed center line)
+  const roadMarkingsTexture = useMemo(() => {
     if (typeof document === 'undefined') return null;
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = 1024;
+    canvas.height = 1024;
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
-    ctx.fillStyle = '#cfcbbf';
-    ctx.fillRect(0, 0, 512, 512);
+    // Rich dark asphalt base
+    ctx.fillStyle = '#22242a';
+    ctx.fillRect(0, 0, 1024, 1024);
 
-    const rows = 24;
-    const cols = 12;
-    const padX = 8;
-    const padY = 5;
-    const w = (512 - padX * (cols + 1)) / cols;
-    const h = (512 - padY * (rows + 1)) / rows;
+    // Subtle asphalt grain texture
+    ctx.fillStyle = '#2a2d35';
+    for (let i = 0; i < 4000; i++) {
+      const rx = Math.random() * 1024;
+      const ry = Math.random() * 1024;
+      ctx.fillRect(rx, ry, 2, 2);
+    }
 
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const x = padX + c * (w + padX);
-        const y = padY + r * (h + padY);
+    // Double solid yellow center divider line
+    ctx.strokeStyle = '#e6b840';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(508, 0);
+    ctx.lineTo(508, 1024);
+    ctx.moveTo(516, 0);
+    ctx.lineTo(516, 1024);
+    ctx.stroke();
 
-        const skyTone = Math.sin(r * 2.1 + c * 5.3) * 0.15 + 0.85;
-        const rVal = Math.floor(130 * skyTone);
-        const gVal = Math.floor(175 * skyTone);
-        const bVal = Math.floor(215 * skyTone);
+    // White dashed lane markers
+    ctx.strokeStyle = '#f0ede6';
+    ctx.lineWidth = 5;
+    ctx.setLineDash([30, 30]);
+    ctx.beginPath();
+    ctx.moveTo(256, 0);
+    ctx.lineTo(256, 1024);
+    ctx.moveTo(768, 0);
+    ctx.lineTo(768, 1024);
+    ctx.stroke();
 
-        ctx.fillStyle = `rgb(${rVal}, ${gVal}, ${bVal})`;
-        ctx.fillRect(x, y, w, h);
-
-        ctx.strokeStyle = '#9ca0a6';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x, y, w, h);
-      }
+    // Pedestrian crosswalk bars across roadway
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#f2efe9';
+    for (let x = 60; x < 960; x += 60) {
+      ctx.fillRect(x, 460, 36, 110);
     }
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(1, 2.5);
+    texture.repeat.set(1, 2);
     return texture;
   }, []);
 
   return (
-    <group name="CityScene">
-      <mesh position={[0, -0.05, 24]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[180, 22]} />
+    <group name="DaytimeCityEnvironment">
+      {/* =================================================================== */}
+      {/* 1. STREET ASPHALT & SIDEWALKS                                       */}
+      {/* =================================================================== */}
+      {/* Main Multi-Lane Street */}
+      <mesh position={[0, -0.05, 32]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[140, 36]} />
         <meshStandardMaterial
-          color="#2a2d33"
-          roughness={0.4}
-          metalness={0.15}
+          map={roadMarkingsTexture || undefined}
+          roughness={0.88}
+          metalness={0.12}
         />
       </mesh>
 
-      {[-45, -30, -15, 0, 15, 30, 45].map((x, i) => (
-        <mesh key={`dash-${i}`} position={[x, 0.01, 24]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[6, 0.3]} />
-          <meshBasicMaterial color="#f0f2f5" />
+      {/* Near Sidewalk (Ashaiva side) with Granite Curb */}
+      <mesh position={[0, 0.08, 14]} receiveShadow>
+        <boxGeometry args={[140, 0.22, 10]} />
+        <meshStandardMaterial color="#cdc8bd" roughness={0.72} metalness={0.06} />
+      </mesh>
+      {/* Granite Curb Lip */}
+      <mesh position={[0, 0.09, 19.1]} receiveShadow>
+        <boxGeometry args={[140, 0.24, 0.25]} />
+        <meshStandardMaterial color="#88847d" roughness={0.8} />
+      </mesh>
+
+      {/* Far Sidewalk (Opposite side) */}
+      <mesh position={[0, 0.08, 50]} receiveShadow>
+        <boxGeometry args={[140, 0.22, 10]} />
+        <meshStandardMaterial color="#cdc8bd" roughness={0.72} metalness={0.06} />
+      </mesh>
+      <mesh position={[0, 0.09, 44.9]} receiveShadow>
+        <boxGeometry args={[140, 0.24, 0.25]} />
+        <meshStandardMaterial color="#88847d" roughness={0.8} />
+      </mesh>
+
+      {/* =================================================================== */}
+      {/* 2. SURROUNDING REALISTIC MODERN ARCHITECTURE                        */}
+      {/* =================================================================== */}
+      {/* West Building (Left neighbor, 10-story dark glass curtain wall) */}
+      <group position={[-38, 20, 0]}>
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[34, 40, 32]} />
+          <meshStandardMaterial color="#32353d" roughness={0.5} metalness={0.3} />
+        </mesh>
+        {/* Glass Facade Overlay */}
+        <mesh position={[0, 0, 16.1]}>
+          <planeGeometry args={[33, 38]} />
+          <meshStandardMaterial color="#6a8ca8" roughness={0.15} metalness={0.4} />
+        </mesh>
+        {/* Horizontal Louver Bands */}
+        {[-14, -7, 0, 7, 14].map((ly, idx) => (
+          <mesh key={`west-louver-${idx}`} position={[0, ly, 16.2]} castShadow>
+            <boxGeometry args={[33.5, 0.4, 0.3]} />
+            <meshStandardMaterial color="#1a1c22" metalness={0.8} roughness={0.3} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* East Building (Right neighbor, 12-story limestone & bronze corporate) */}
+      <group position={[38, 24, -2]}>
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[32, 48, 30]} />
+          <meshStandardMaterial color="#d4cebe" roughness={0.7} metalness={0.08} />
+        </mesh>
+        {/* Windows Grid */}
+        <mesh position={[0, 0, 15.1]}>
+          <planeGeometry args={[30, 44]} />
+          <meshStandardMaterial color="#7094b0" roughness={0.15} metalness={0.35} />
+        </mesh>
+        {/* Stone Vertical Piers */}
+        {[-12, -6, 0, 6, 12].map((px, idx) => (
+          <mesh key={`east-pier-${idx}`} position={[px, 0, 15.2]} castShadow>
+            <boxGeometry args={[1.2, 47, 0.4]} />
+            <meshStandardMaterial color="#c6beae" roughness={0.7} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* Distant Background Metropolis Towers */}
+      <group position={[0, 0, -42]}>
+        {/* Distant Tower 1 */}
+        <mesh position={[-50, 36, 0]} castShadow>
+          <boxGeometry args={[28, 72, 28]} />
+          <meshStandardMaterial color="#8ca4b8" roughness={0.3} metalness={0.3} />
+        </mesh>
+        {/* Distant Tower 2 */}
+        <mesh position={[-18, 42, -15]} castShadow>
+          <boxGeometry args={[26, 84, 26]} />
+          <meshStandardMaterial color="#9cb4c6" roughness={0.25} metalness={0.4} />
+        </mesh>
+        {/* Distant Tower 3 */}
+        <mesh position={[24, 38, -12]} castShadow>
+          <boxGeometry args={[30, 76, 28]} />
+          <meshStandardMaterial color="#8ea6ba" roughness={0.3} metalness={0.3} />
+        </mesh>
+        {/* Distant Tower 4 */}
+        <mesh position={[58, 34, 0]} castShadow>
+          <boxGeometry args={[26, 68, 24]} />
+          <meshStandardMaterial color="#94acc0" roughness={0.35} metalness={0.25} />
+        </mesh>
+      </group>
+
+      {/* =================================================================== */}
+      {/* 3. STREET TREES & URBAN FLORA                                       */}
+      {/* =================================================================== */}
+      {[-24, -16, 16, 24].map((tx, idx) => (
+        <group key={`tree-${idx}`} position={[tx, 0.2, 16.5]}>
+          {/* Tree Pit Granite Border */}
+          <mesh position={[0, 0.05, 0]}>
+            <boxGeometry args={[2.0, 0.1, 2.0]} />
+            <meshStandardMaterial color="#55514b" roughness={0.8} />
+          </mesh>
+          <mesh position={[0, 0.06, 0]}>
+            <boxGeometry args={[1.6, 0.11, 1.6]} />
+            <meshStandardMaterial color="#382f27" roughness={0.9} />
+          </mesh>
+          {/* Organic Trunk */}
+          <mesh position={[0, 1.8, 0]} castShadow>
+            <cylinderGeometry args={[0.14, 0.22, 3.6, 10]} />
+            <meshStandardMaterial color="#423528" roughness={0.85} />
+          </mesh>
+          {/* Realistic Multi-Cluster Canopy */}
+          <mesh position={[0, 4.4, 0]} castShadow>
+            <sphereGeometry args={[1.8, 12, 10]} />
+            <meshStandardMaterial color="#34543b" roughness={0.78} />
+          </mesh>
+          <mesh position={[0.6, 4.9, 0.4]} castShadow>
+            <sphereGeometry args={[1.3, 10, 8]} />
+            <meshStandardMaterial color="#416648" roughness={0.75} />
+          </mesh>
+          <mesh position={[-0.5, 4.7, -0.3]} castShadow>
+            <sphereGeometry args={[1.2, 10, 8]} />
+            <meshStandardMaterial color="#2d4a33" roughness={0.8} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* =================================================================== */}
+      {/* 4. URBAN STREET FURNITURE (LIGHT POLES & BOLLARDS)                  */}
+      {/* =================================================================== */}
+      {[-28, -8, 8, 28].map((lx, idx) => (
+        <group key={`light-pole-${idx}`} position={[lx, 0.2, 18.5]}>
+          {/* Vertical Pole */}
+          <mesh position={[0, 3.2, 0]} castShadow>
+            <cylinderGeometry args={[0.07, 0.1, 6.4, 12]} />
+            <meshStandardMaterial color="#202228" metalness={0.9} roughness={0.25} />
+          </mesh>
+          {/* Horizontal Cantilever Arm over Street */}
+          <mesh position={[0, 6.35, 0.6]} rotation={[0.2, 0, 0]} castShadow>
+            <boxGeometry args={[0.1, 0.12, 1.4]} />
+            <meshStandardMaterial color="#202228" metalness={0.9} roughness={0.25} />
+          </mesh>
+          {/* Fixture Head */}
+          <mesh position={[0, 6.2, 1.2]}>
+            <boxGeometry args={[0.22, 0.1, 0.5]} />
+            <meshStandardMaterial color="#14151a" metalness={0.9} roughness={0.3} />
+          </mesh>
+          <mesh position={[0, 6.14, 1.2]}>
+            <planeGeometry args={[0.18, 0.4]} />
+            <meshBasicMaterial color="#fffbe8" />
+          </mesh>
+        </group>
+      ))}
+
+      {/* Stainless Steel Pedestrian Bollards */}
+      {[-12, -9, -6, 6, 9, 12].map((bx, idx) => (
+        <mesh key={`bollard-${idx}`} position={[bx, 0.6, 18.2]} castShadow>
+          <cylinderGeometry args={[0.08, 0.08, 0.9, 12]} />
+          <meshStandardMaterial color="#8a8e98" metalness={0.92} roughness={0.15} />
         </mesh>
       ))}
 
-      <mesh position={[0, 0.12, 10]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[120, 10]} />
-        <meshStandardMaterial
-          color="#dfdbd3"
-          roughness={0.7}
-          metalness={0.05}
-        />
-      </mesh>
-
-      <mesh position={[0, 0.1, 15]} receiveShadow>
-        <boxGeometry args={[120, 0.25, 0.4]} />
-        <meshStandardMaterial color="#c2beb6" roughness={0.8} />
-      </mesh>
-
-      <group position={[-34, 18, -12]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[20, 38, 22]} />
-          <meshStandardMaterial
-            color="#d8d4ca"
-            roughness={0.45}
-            metalness={0.1}
-            map={dayTowerTexture || undefined}
+      {/* =================================================================== */}
+      {/* 5. MODERN VEHICLES (EXECUTIVE SEDAN & SUV)                          */}
+      {/* =================================================================== */}
+      {/* Executive Dark Sedan in Roadway Lane */}
+      <group position={[-14, 0.6, 26]} rotation={[0, Math.PI / 2, 0]}>
+        {/* Chassis Body */}
+        <mesh position={[0, 0.45, 0]} castShadow>
+          <boxGeometry args={[4.6, 0.75, 1.85]} />
+          <meshStandardMaterial color="#1a1c22" metalness={0.92} roughness={0.18} />
+        </mesh>
+        {/* Greenhouse Cabin & Tinted Windows */}
+        <mesh position={[-0.2, 1.05, 0]} castShadow>
+          <boxGeometry args={[2.4, 0.6, 1.65]} />
+          <meshPhysicalMaterial
+            color="#111317"
+            roughness={0.1}
+            metalness={0.4}
+            transmission={0.3}
+            ior={1.5}
           />
         </mesh>
-        <mesh position={[0, 21, 0]} castShadow>
-          <boxGeometry args={[16, 8, 18]} />
-          <meshStandardMaterial color="#c8c4ba" roughness={0.5} />
+        {/* Headlights */}
+        <mesh position={[2.25, 0.45, 0.6]}>
+          <boxGeometry args={[0.12, 0.15, 0.4]} />
+          <meshBasicMaterial color="#f0f6ff" />
         </mesh>
-      </group>
-
-      <group position={[36, 22, -10]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[18, 46, 20]} />
-          <meshStandardMaterial
-            color="#d5d0c6"
-            roughness={0.35}
-            metalness={0.2}
-            map={dayTowerTexture || undefined}
-          />
+        <mesh position={[2.25, 0.45, -0.6]}>
+          <boxGeometry args={[0.12, 0.15, 0.4]} />
+          <meshBasicMaterial color="#f0f6ff" />
         </mesh>
-        <mesh position={[0, 24.5, 0]} castShadow>
-          <boxGeometry args={[14, 6, 16]} />
-          <meshStandardMaterial color="#b8b4aa" roughness={0.6} />
+        {/* Alloy Wheels */}
+        {[-1.4, 1.4].map((wx, i) =>
+          [-0.95, 0.95].map((wz, j) => (
+            <mesh
+              key={`wheel-${i}-${j}`}
+              position={[wx, 0.15, wz]}
+              rotation={[Math.PI / 2, 0, 0]}
+              castShadow
+            >
+              <cylinderGeometry args={[0.35, 0.35, 0.22, 16]} />
+              <meshStandardMaterial color="#111" metalness={0.8} roughness={0.3} />
+            </mesh>
+          ))
+        )}
+      </group>
+
+      {/* Contemporary SUV parked along curb */}
+      <group position={[18, 0.75, 23]} rotation={[0, -Math.PI / 2, 0]}>
+        <mesh position={[0, 0.55, 0]} castShadow>
+          <boxGeometry args={[4.8, 0.95, 1.95]} />
+          <meshStandardMaterial color="#d4cebe" metalness={0.85} roughness={0.22} />
         </mesh>
-      </group>
-
-      <mesh position={[-65, 26, -55]}>
-        <boxGeometry args={[26, 55, 24]} />
-        <meshStandardMaterial color="#94b0c6" roughness={0.6} />
-      </mesh>
-      <mesh position={[0, 35, -75]}>
-        <boxGeometry args={[34, 75, 30]} />
-        <meshStandardMaterial color="#88a8c0" roughness={0.6} />
-      </mesh>
-      <mesh position={[68, 28, -50]}>
-        <boxGeometry args={[24, 60, 22]} />
-        <meshStandardMaterial color="#96b2c8" roughness={0.6} />
-      </mesh>
-
-      <group ref={foliageGroup}>
-        {[-18, -10, -2, 6, 14, 22].map((x, idx) => (
-          <group key={`tree-${idx}`} position={[x * 1.8, 0.2, 12]}>
-            <mesh position={[0, 0.35, 0]} castShadow receiveShadow>
-              <boxGeometry args={[1.8, 0.7, 1.8]} />
-              <meshStandardMaterial color="#cfcbc3" roughness={0.8} />
+        <mesh position={[-0.1, 1.25, 0]} castShadow>
+          <boxGeometry args={[2.7, 0.75, 1.75]} />
+          <meshPhysicalMaterial color="#14181c" roughness={0.08} metalness={0.4} />
+        </mesh>
+        {[-1.5, 1.5].map((wx, i) =>
+          [-1.0, 1.0].map((wz, j) => (
+            <mesh
+              key={`suv-wheel-${i}-${j}`}
+              position={[wx, 0.18, wz]}
+              rotation={[Math.PI / 2, 0, 0]}
+              castShadow
+            >
+              <cylinderGeometry args={[0.42, 0.42, 0.26, 16]} />
+              <meshStandardMaterial color="#151515" metalness={0.7} roughness={0.4} />
             </mesh>
-            <mesh position={[0, 2.2, 0]} castShadow>
-              <cylinderGeometry args={[0.09, 0.14, 3.2, 8]} />
-              <meshStandardMaterial color="#4a3e35" roughness={0.9} />
-            </mesh>
-            <mesh position={[0, 4.2, 0]} castShadow>
-              <sphereGeometry args={[1.2, 14, 12]} />
-              <meshStandardMaterial
-                color="#3d5a36"
-                roughness={0.75}
-                metalness={0.05}
-              />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      <group ref={trafficGroup} position={[0, 0.5, 24]}>
-        <group position={[-25, 0, -3.2]} userData={{ speed: 8.5, dir: 1 }}>
-          <mesh castShadow>
-            <boxGeometry args={[4.2, 1.3, 1.9]} />
-            <meshStandardMaterial color="#f0f2f5" metalness={0.8} roughness={0.2} />
-          </mesh>
-          <mesh position={[0, 0.55, 0]} castShadow>
-            <boxGeometry args={[2.4, 0.8, 1.7]} />
-            <meshStandardMaterial color="#324558" roughness={0.1} metalness={0.4} />
-          </mesh>
-        </group>
-
-        <group position={[10, 0, -3.2]} userData={{ speed: 7.2, dir: 1 }}>
-          <mesh castShadow>
-            <boxGeometry args={[4.4, 1.4, 2.0]} />
-            <meshStandardMaterial color="#2d333b" metalness={0.7} roughness={0.3} />
-          </mesh>
-          <mesh position={[0, 0.6, 0]} castShadow>
-            <boxGeometry args={[2.5, 0.8, 1.8]} />
-            <meshStandardMaterial color="#324558" roughness={0.1} />
-          </mesh>
-        </group>
-
-        <group position={[28, 0, 3.2]} userData={{ speed: 9.0, dir: -1 }}>
-          <mesh castShadow>
-            <boxGeometry args={[4.5, 1.35, 1.95]} />
-            <meshStandardMaterial color="#1f2328" metalness={0.85} roughness={0.2} />
-          </mesh>
-          <mesh position={[0, 0.55, 0]} castShadow>
-            <boxGeometry args={[2.4, 0.8, 1.75]} />
-            <meshStandardMaterial color="#324558" roughness={0.1} />
-          </mesh>
-        </group>
-
-        <group position={[-12, 0, 3.2]} userData={{ speed: 7.8, dir: -1 }}>
-          <mesh castShadow>
-            <boxGeometry args={[4.0, 1.25, 1.85]} />
-            <meshStandardMaterial color="#4a5568" metalness={0.6} roughness={0.3} />
-          </mesh>
-          <mesh position={[0, 0.55, 0]} castShadow>
-            <boxGeometry args={[2.2, 0.75, 1.65]} />
-            <meshStandardMaterial color="#324558" roughness={0.1} />
-          </mesh>
-        </group>
-      </group>
-
-      <group ref={pedestriansGroup} position={[0, 0.95, 8.5]}>
-        {[-15, -4, 8, 20].map((x, idx) => (
-          <group
-            key={`ped-${idx}`}
-            position={[x, 0, 0]}
-            userData={{ speed: 1.1 + (idx % 2) * 0.4, dir: idx % 2 === 0 ? 1 : -1 }}
-          >
-            <mesh position={[0, 0.4, 0]} castShadow>
-              <cylinderGeometry args={[0.2, 0.22, 1.0, 8]} />
-              <meshStandardMaterial color={idx % 2 === 0 ? '#2d333b' : '#4b5563'} roughness={0.8} />
-            </mesh>
-            <mesh position={[0, 1.05, 0]} castShadow>
-              <sphereGeometry args={[0.13, 8, 8]} />
-              <meshStandardMaterial color="#d4b296" roughness={0.7} />
-            </mesh>
-          </group>
-        ))}
+          ))
+        )}
       </group>
     </group>
   );

@@ -1,46 +1,69 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
+import * as THREE from 'three';
 
-export function Lighting() {
+interface LightingProps {
+  scrollProgress: number;
+}
+
+export function Lighting({ scrollProgress }: LightingProps) {
+  // Indoor transition: when inside office (scroll 0.35 to 0.75), increase warm interior key lighting
+  const isIndoor = scrollProgress > 0.32 && scrollProgress < 0.78;
+  const interiorIntensity = isIndoor ? 1.4 : 0.6;
+
   return (
     <>
-      <hemisphereLight
-        args={['#a2ccee', '#e4ded4', 0.9]}
-      />
+      {/* Primary Daytime Sunlight (Sun at approx 11:30 AM) */}
       <directionalLight
-        position={[32, 45, 28]}
-        color="#fffaf0"
-        intensity={1.75}
+        position={[28, 48, 24]}
+        intensity={2.4}
+        color="#fff6eb"
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
-        shadow-bias={-0.00015}
-        shadow-camera-near={1}
-        shadow-camera-far={120}
-        shadow-camera-left={-40}
-        shadow-camera-right={40}
-        shadow-camera-top={40}
-        shadow-camera-bottom={-40}
+        shadow-camera-near={0.5}
+        shadow-camera-far={160}
+        shadow-camera-left={-35}
+        shadow-camera-right={35}
+        shadow-camera-top={35}
+        shadow-camera-bottom={-35}
+        shadow-bias={-0.0003}
       />
+
+      {/* Sky Ambient Fill Light (Soft cool skylight) */}
       <directionalLight
-        position={[-25, 25, -20]}
-        color="#c8e2f8"
-        intensity={0.45}
+        position={[-22, 28, -20]}
+        intensity={0.8}
+        color="#c8ddf0"
       />
-      <pointLight
-        position={[0.5, 9.5, -6]}
-        color="#fff1db"
-        intensity={1.6}
-        distance={24}
-        decay={2}
+
+      {/* Ground Bounce Light (Warm street & pavement reflection) */}
+      <directionalLight
+        position={[0, -10, 10]}
+        intensity={0.35}
+        color="#e4dcd0"
       />
+
+      {/* 3rd-Floor Studio Interior Warm Architectural Illumination */}
       <pointLight
-        position={[-4.5, 9.2, -9.5]}
-        color="#ffeed4"
-        intensity={1.2}
-        distance={16}
+        position={[2.5, 9.2, -7.5]}
+        intensity={interiorIntensity * 1.8}
+        distance={18}
         decay={2}
+        color="#ffe8cc"
+      />
+
+      {/* Human Workstation Focus Key Light */}
+      <spotLight
+        position={[3.8, 8.8, -7.2]}
+        target-position={[3.6, 7.0, -8.2]}
+        intensity={interiorIntensity * 2.2}
+        angle={Math.PI / 4}
+        penumbra={0.6}
+        color="#fff0d9"
+        distance={6}
+        decay={1.8}
       />
     </>
   );

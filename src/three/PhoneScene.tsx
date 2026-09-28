@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
 
 interface PhoneSceneProps {
   scrollProgress: number;
@@ -9,218 +10,239 @@ interface PhoneSceneProps {
 }
 
 export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
-  const phoneTexture = useMemo(() => {
+  // Only render when camera is near the desk and phone (scroll 0.45 to 0.85)
+  const isVisible = scrollProgress > 0.44 && scrollProgress < 0.86;
+  const screenMeshRef = useRef<THREE.Mesh>(null);
+
+  // High-Resolution OLED Screen Texture with Crisp Enterprise Systems UI
+  const phoneScreenTexture = useMemo(() => {
     if (typeof document === 'undefined') return null;
     const canvas = document.createElement('canvas');
-    canvas.width = 750;
-    canvas.height = 1600;
+    canvas.width = 1080;
+    canvas.height = 2340;
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
-    ctx.fillStyle = '#f8f6f0';
-    ctx.fillRect(0, 0, 750, 1600);
+    // True OLED Deep Black Background
+    ctx.fillStyle = '#06070a';
+    ctx.fillRect(0, 0, 1080, 2340);
 
-    ctx.fillStyle = '#1c1b18';
+    // Subtle luxury background gradient glow
+    const grad = ctx.createRadialGradient(540, 700, 50, 540, 700, 600);
+    grad.addColorStop(0, 'rgba(200, 169, 126, 0.08)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1080, 2340);
+
+    // 1. Status Bar (Time, Dynamic Island, Battery)
+    ctx.fillStyle = '#f5f3ee';
+    ctx.font = '600 48px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('09:41', 110, 145);
+
+    // Dynamic Island pill
+    ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.roundRect(275, 32, 200, 48, 24);
+    ctx.roundRect(390, 85, 300, 90, 45);
     ctx.fill();
 
-    ctx.fillStyle = '#141416';
-    ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
-    ctx.letterSpacing = '6px';
-    ctx.fillText('ASHAIVA', 60, 160);
+    // 5G & Battery icon
+    ctx.fillStyle = '#f5f3ee';
+    ctx.font = '500 40px "JetBrains Mono", monospace';
+    ctx.fillText('5G  100%', 810, 145);
 
-    ctx.fillStyle = '#c4a47c';
-    ctx.font = '600 16px monospace';
-    ctx.textAlign = 'right';
-    ctx.fillText('MENU // 06', 690, 160);
+    // 2. Brand Header
+    ctx.fillStyle = '#c8a97e';
+    ctx.font = '600 36px "Cinzel", serif';
+    ctx.letterSpacing = '8px';
+    ctx.fillText('A S H A I V A', 110, 290);
+    ctx.fillStyle = '#8e96a8';
+    ctx.font = '500 28px "JetBrains Mono", monospace';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('ENTERPRISE MOBILE CONDUIT', 110, 340);
+
+    // 3. Primary KPI Card (Realtime System Velocity)
+    ctx.fillStyle = '#0e1118';
+    ctx.beginPath();
+    ctx.roundRect(80, 410, 920, 400, 36);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(200, 169, 126, 0.3)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = '#9aa4b6';
+    ctx.font = '500 32px "JetBrains Mono", monospace';
+    ctx.fillText('SYSTEM REVENUE CONDUIT', 130, 490);
+
+    ctx.fillStyle = '#fbfaf8';
+    ctx.font = '700 86px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('$148,250', 130, 600);
+
+    ctx.fillStyle = '#4ade80';
+    ctx.font = '600 36px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('+28.4% efficiency vs manual ops', 130, 680);
+
+    ctx.fillStyle = '#c8a97e';
+    ctx.font = '500 30px "JetBrains Mono", monospace';
+    ctx.fillText('STATUS: FULLY AUTONOMOUS', 130, 745);
+
+    // 4. Autonomous Agent Swarm Card
+    ctx.fillStyle = '#0e1118';
+    ctx.beginPath();
+    ctx.roundRect(80, 850, 920, 520, 36);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = '#f5f3ee';
+    ctx.font = '700 42px "Cinzel", serif';
+    ctx.fillText('Active Agent Clusters', 130, 940);
+
+    // Agent items
+    const agents = [
+      { name: 'Lead Intake & Scoring Agent', time: '1.2s', status: 'ACTIVE' },
+      { name: 'Financial Reconciliation Bot', time: '0.4s', status: 'SYNCHED' },
+      { name: 'Customer Lifecycle Pipeline', time: '2.1s', status: 'DISPATCHED' },
+    ];
+
+    agents.forEach((ag, idx) => {
+      const y = 1040 + idx * 110;
+      ctx.fillStyle = '#141822';
+      ctx.beginPath();
+      ctx.roundRect(120, y - 55, 840, 85, 20);
+      ctx.fill();
+
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath();
+      ctx.arc(160, y - 12, 10, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#f0ede6';
+      ctx.font = '600 34px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(ag.name, 195, y);
+
+      ctx.fillStyle = '#c8a97e';
+      ctx.font = '600 30px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(ag.status, 930, y);
+      ctx.textAlign = 'left';
+    });
+
+    // 5. Interactive Conduit CTA Button
+    ctx.fillStyle = '#c8a97e';
+    ctx.beginPath();
+    ctx.roundRect(80, 1430, 920, 140, 70);
+    ctx.fill();
+
+    ctx.fillStyle = '#07090d';
+    ctx.font = '700 42px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('TAP TO ENTER ASHAIVA CONDUIT  →', 540, 1515);
     ctx.textAlign = 'left';
 
-    ctx.strokeStyle = '#e2ded5';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(60, 200);
-    ctx.lineTo(690, 200);
-    ctx.stroke();
-
-    ctx.fillStyle = '#1c1b18';
-    ctx.font = '600 52px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('INTELLIGENT', 60, 310);
-    ctx.fillText('SYSTEMS FOR', 60, 375);
-    ctx.fillStyle = '#c4a47c';
-    ctx.fillText('MODERN SCALE.', 60, 440);
-
-    ctx.fillStyle = '#141416';
-    ctx.font = '700 28px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('01  AI AUTOMATION', 60, 580);
-    ctx.fillText('02  DIGITAL SYSTEMS', 60, 660);
-    ctx.fillText('03  CUSTOM EXPERIENCES', 60, 740);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.roundRect(60, 850, 630, 360, 24);
-    ctx.fill();
-    ctx.strokeStyle = '#e2ded5';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.fillStyle = '#c4a47c';
-    ctx.font = '600 16px monospace';
-    ctx.letterSpacing = '3px';
-    ctx.fillText('STUDIO LEADERSHIP', 100, 915);
-
-    ctx.fillStyle = '#1c1b18';
-    ctx.font = '700 32px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('FARHAN KHAN', 100, 985);
-    ctx.fillStyle = '#718096';
-    ctx.font = '500 20px monospace';
-    ctx.fillText('Co-Founder · Lead', 100, 1025);
-
-    ctx.fillStyle = '#1c1b18';
-    ctx.font = '700 32px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('MOHIT AGARWAL', 100, 1115);
-    ctx.fillStyle = '#718096';
-    ctx.font = '500 20px monospace';
-    ctx.fillText('Co-Founder · Lead', 100, 1155);
-
-    ctx.fillStyle = '#1c1b18';
-    ctx.beginPath();
-    ctx.roundRect(60, 1340, 630, 100, 50);
-    ctx.fill();
-
-    ctx.fillStyle = '#f8f6f0';
-    ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
-    ctx.letterSpacing = '3px';
+    // 6. Security & Infrastructure Metadata Footer
+    ctx.fillStyle = '#525a6c';
+    ctx.font = '500 28px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('EXPLORE CAPABILITIES', 375, 1400);
+    ctx.fillText('SOC-2 TYPE II CERTIFIED // AES-256 ENCRYPTED', 540, 1680);
+    ctx.fillText('DIRECT FOUNDER ARCHITECTURE · ASHAIVA', 540, 1730);
 
     const texture = new THREE.CanvasTexture(canvas);
+    texture.anisotropy = 8;
     return texture;
   }, []);
 
+  if (!isVisible) return null;
+
   return (
-    <group name="PhoneScene" position={[3.6, 6.22, -8.2]}>
-      <group position={[0, 0, 0]} rotation={[0, -0.32, 0]}>
-        <group position={[0, 1.45, 0]}>
-          <mesh position={[0, 0.45, 0]} castShadow>
-            <boxGeometry args={[0.54, 0.75, 0.3]} />
-            <meshStandardMaterial color="#e0ded6" roughness={0.85} />
-          </mesh>
+    <group
+      name="TitaniumSmartDevice"
+      position={[3.6, 7.05, -8.2]}
+      rotation={[-0.22, 0.18, -0.06]}
+      onClick={(e) => {
+        e.stopPropagation();
+        onPhoneClick?.();
+      }}
+    >
+      {/* 1. Titanium Chassis with Subtle Rounded Frame */}
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[0.076, 0.162, 0.0084]} />
+        <meshStandardMaterial
+          color="#22242a"
+          metalness={0.94}
+          roughness={0.24}
+        />
+      </mesh>
 
-          <mesh position={[0, 0.84, 0]} castShadow>
-            <boxGeometry args={[0.58, 0.16, 0.32]} />
-            <meshStandardMaterial color="#d4d0c6" roughness={0.9} />
-          </mesh>
+      {/* 2. Precision Chamfered Metallic Edge Bezel */}
+      <mesh position={[0, 0, 0]}>
+        <boxGeometry args={[0.0772, 0.1632, 0.007]} />
+        <meshStandardMaterial
+          color="#383b44"
+          metalness={0.96}
+          roughness={0.16}
+        />
+      </mesh>
 
-          <group position={[0, 1.08, 0.08]} rotation={[0.3, 0, 0]}>
-            <mesh castShadow>
-              <sphereGeometry args={[0.155, 16, 16]} />
-              <meshStandardMaterial color="#d8ba9e" roughness={0.65} />
+      {/* 3. Rear Camera Island (Sapphire Lenses & Bronze Rings) */}
+      <group position={[-0.02, 0.052, -0.0055]}>
+        <mesh castShadow>
+          <boxGeometry args={[0.03, 0.038, 0.0028]} />
+          <meshStandardMaterial color="#1a1c22" roughness={0.3} metalness={0.8} />
+        </mesh>
+        {/* Three Optical Lenses */}
+        {[
+          [-0.007, 0.009],
+          [0.007, 0.009],
+          [-0.007, -0.009],
+        ].map(([lx, ly], idx) => (
+          <group key={`lens-${idx}`} position={[lx, ly, -0.0016]}>
+            <mesh>
+              <cylinderGeometry args={[0.0055, 0.0055, 0.001, 16]} />
+              <meshStandardMaterial color="#c8a97e" metalness={0.9} roughness={0.2} />
             </mesh>
-            <mesh position={[0, 0.06, -0.04]} castShadow>
-              <sphereGeometry args={[0.16, 14, 14]} />
-              <meshStandardMaterial color="#221e1a" roughness={0.9} />
-            </mesh>
-          </group>
-
-          <group position={[0.29, 0.65, 0]} rotation={[0.48, -0.22, 0]}>
-            <mesh position={[0, -0.25, 0.12]} castShadow>
-              <cylinderGeometry args={[0.068, 0.062, 0.48, 10]} />
-              <meshStandardMaterial color="#e0ded6" roughness={0.85} />
-            </mesh>
-            <group position={[0, -0.48, 0.24]} rotation={[0.62, 0, 0]}>
-              <mesh position={[0, -0.16, 0.1]} castShadow>
-                <cylinderGeometry args={[0.058, 0.052, 0.38, 10]} />
-                <meshStandardMaterial color="#e0ded6" roughness={0.85} />
-              </mesh>
-
-              <group position={[-0.04, -0.34, 0.18]}>
-                <mesh castShadow>
-                  <boxGeometry args={[0.09, 0.08, 0.12]} />
-                  <meshStandardMaterial color="#d8ba9e" roughness={0.65} />
-                </mesh>
-                <mesh position={[0.05, 0, 0.04]} castShadow>
-                  <boxGeometry args={[0.04, 0.06, 0.14]} />
-                  <meshStandardMaterial color="#d8ba9e" roughness={0.65} />
-                </mesh>
-                <mesh position={[-0.04, 0.03, 0.02]} castShadow>
-                  <boxGeometry args={[0.03, 0.05, 0.08]} />
-                  <meshStandardMaterial color="#d8ba9e" roughness={0.65} />
-                </mesh>
-
-                <group
-                  position={[-0.01, 0.02, 0.06]}
-                  rotation={[-0.38, -0.18, 0.05]}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onPhoneClick?.();
-                  }}
-                >
-                  <mesh castShadow receiveShadow>
-                    <boxGeometry args={[0.38, 0.78, 0.025]} />
-                    <meshStandardMaterial
-                      color="#24262c"
-                      metalness={0.92}
-                      roughness={0.25}
-                    />
-                  </mesh>
-
-                  <mesh position={[0, 0, 0.014]}>
-                    <planeGeometry args={[0.36, 0.75]} />
-                    <meshStandardMaterial
-                      map={phoneTexture || undefined}
-                      roughness={0.15}
-                    />
-                  </mesh>
-
-                  <mesh position={[0, 0, 0.015]}>
-                    <planeGeometry args={[0.365, 0.755]} />
-                    <meshPhysicalMaterial
-                      color="#d4e8f7"
-                      transparent
-                      opacity={0.16}
-                      roughness={0.02}
-                      transmission={0.95}
-                      ior={1.5}
-                      depthWrite={false}
-                    />
-                  </mesh>
-                </group>
-              </group>
-            </group>
-          </group>
-
-          <group position={[-0.29, 0.65, 0]} rotation={[0.32, 0.12, 0]}>
-            <mesh position={[0, -0.25, 0.1]} castShadow>
-              <cylinderGeometry args={[0.068, 0.062, 0.48, 10]} />
-              <meshStandardMaterial color="#e0ded6" roughness={0.85} />
-            </mesh>
-            <mesh position={[0, -0.52, 0.24]} castShadow>
-              <boxGeometry args={[0.08, 0.06, 0.11]} />
-              <meshStandardMaterial color="#d8ba9e" roughness={0.65} />
+            <mesh position={[0, -0.0006, 0]}>
+              <cylinderGeometry args={[0.0042, 0.0042, 0.001, 16]} />
+              <meshPhysicalMaterial
+                color="#060910"
+                roughness={0.05}
+                metalness={0.1}
+                transmission={0.4}
+                ior={1.77}
+              />
             </mesh>
           </group>
-        </group>
-
-        <group position={[0, 0.8, 0]}>
-          <mesh position={[-0.15, 0.25, 0.28]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.09, 0.08, 0.55, 10]} />
-            <meshStandardMaterial color="#252830" roughness={0.85} />
-          </mesh>
-          <mesh position={[0.15, 0.25, 0.28]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-            <cylinderGeometry args={[0.09, 0.08, 0.55, 10]} />
-            <meshStandardMaterial color="#252830" roughness={0.85} />
-          </mesh>
-          <mesh position={[-0.15, -0.16, 0.54]} castShadow>
-            <cylinderGeometry args={[0.08, 0.07, 0.56, 10]} />
-            <meshStandardMaterial color="#252830" roughness={0.85} />
-          </mesh>
-          <mesh position={[0.15, -0.16, 0.54]} castShadow>
-            <cylinderGeometry args={[0.08, 0.07, 0.56, 10]} />
-            <meshStandardMaterial color="#252830" roughness={0.85} />
-          </mesh>
-        </group>
+        ))}
       </group>
+
+      {/* 4. Front Edge Black Ceramic Shield Bezel */}
+      <mesh position={[0, 0, 0.0043]}>
+        <planeGeometry args={[0.075, 0.16]} />
+        <meshBasicMaterial color="#000000" />
+      </mesh>
+
+      {/* 5. High-Resolution OLED Screen Surface */}
+      <mesh ref={screenMeshRef} position={[0, 0, 0.0046]}>
+        <planeGeometry args={[0.072, 0.156]} />
+        <meshStandardMaterial
+          map={phoneScreenTexture || undefined}
+          roughness={0.08}
+          metalness={0.02}
+          emissive="#ffffff"
+          emissiveMap={phoneScreenTexture || undefined}
+          emissiveIntensity={0.65}
+        />
+      </mesh>
+
+      {/* 6. Tactical Action Button & Volume Buttons on Chassis */}
+      <mesh position={[-0.0388, 0.02, 0]}>
+        <boxGeometry args={[0.0012, 0.016, 0.002]} />
+        <meshStandardMaterial color="#1a1c22" metalness={0.95} roughness={0.2} />
+      </mesh>
+      <mesh position={[-0.0388, -0.01, 0]}>
+        <boxGeometry args={[0.0012, 0.024, 0.002]} />
+        <meshStandardMaterial color="#1a1c22" metalness={0.95} roughness={0.2} />
+      </mesh>
     </group>
   );
 }
