@@ -92,8 +92,8 @@ export function Footer() {
             &copy; {new Date().getFullYear()} ASHAIVA AUTOMATION LLC. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <span>OBSIDIAN ARCHITECTURE // BUILD 2.4.0</span>
-            <span className="text-teal-400">ENCRYPTED AT REST</span>
+            <span>ASHAIVA SYSTEMS ARCHITECTURE · VERSION 2.4</span>
+            <span className="text-teal-400">SOVEREIGN ENTERPRISE RUNTIME</span>
           </div>
         </div>
       </div>

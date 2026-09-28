@@ -13,7 +13,7 @@ export function WorkSection({ onOpenAudit }: WorkSectionProps) {
   const project = projectsData[activeProject];
 
   return (
-    <section id="work" className="py-28 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
+    <section id="work" className="pt-12 pb-20 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
       <div className="editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
@@ -21,7 +21,7 @@ export function WorkSection({ onOpenAudit }: WorkSectionProps) {
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
               <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-                SELECTED WORK // CASE STUDIES
+                SELECTED COMMISSIONS · CASE STUDIES
               </span>
             </div>
 

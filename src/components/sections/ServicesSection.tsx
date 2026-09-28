@@ -13,14 +13,14 @@ export function ServicesSection({ onOpenAudit }: ServicesSectionProps) {
   const activeService = servicesData.find(s => s.id === activeServiceId) || servicesData[0];
 
   return (
-    <section id="services" className="py-28 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
+    <section id="services" className="pt-28 pb-12 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
       <div className="editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.85)]">
         {/* Section Header */}
         <div className="space-y-4 mb-14 max-w-3xl">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
             <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-              CAPABILITIES // 10 CORE DISCIPLINES
+              CAPABILITIES · 10 CORE DISCIPLINES
             </span>
           </div>
 
@@ -71,7 +71,7 @@ export function ServicesSection({ onOpenAudit }: ServicesSectionProps) {
           <div className="lg:col-span-7 p-8 sm:p-12 rounded-xl bg-white/[0.03] border border-white/[0.1] relative">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
               <span className="font-mono text-xs text-gold tracking-widest uppercase">
-                SPECIFICATION // {activeService.number}
+                SPECIFICATION · {activeService.number}
               </span>
               <span className="font-mono text-xs text-warm-stone/70 tracking-widest uppercase">
                 {activeService.category}

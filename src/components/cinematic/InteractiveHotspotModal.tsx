@@ -37,7 +37,7 @@ export function InteractiveHotspotModal({
         <div className="flex items-center gap-2 mb-3">
           <span className="w-1.5 h-1.5 rounded-full bg-gold" />
           <span className="font-mono text-[10px] tracking-[0.25em] text-gold uppercase">
-            STUDIO ENVIRONMENT // {type.toUpperCase()}
+            STUDIO ENVIRONMENT · {type.toUpperCase()}
           </span>
         </div>
 

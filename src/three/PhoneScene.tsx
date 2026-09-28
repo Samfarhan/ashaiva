@@ -9,7 +9,7 @@ interface PhoneSceneProps {
 }
 
 export function PhoneScene({ scrollProgress, onPhoneClick }: PhoneSceneProps) {
-  const isVisible = scrollProgress > 0.44 && scrollProgress < 0.86;
+  const isVisible = scrollProgress >= 0.52 && scrollProgress <= 0.74;
   const screenMeshRef = useRef<THREE.Mesh>(null);
 
   // High-Resolution OLED Screen Texture with Crisp Enterprise Systems UI

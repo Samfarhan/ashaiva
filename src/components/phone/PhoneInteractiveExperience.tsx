@@ -80,7 +80,7 @@ export function PhoneInteractiveExperience({
           {activeTab === 'systems' && (
             <div className="space-y-4 animate-fade-in">
               <span className="font-mono text-[9px] text-gold tracking-widest uppercase block">
-                01 // CORE ARCHITECTURE
+                01 · CORE ARCHITECTURE
               </span>
               <h4 className="font-serif text-2xl text-architectural-950 leading-tight">
                 Autonomous Workflows. Zero Human Drag.
@@ -112,7 +112,7 @@ export function PhoneInteractiveExperience({
           {activeTab === 'services' && (
             <div className="space-y-4 animate-fade-in">
               <span className="font-mono text-[9px] text-gold tracking-widest uppercase block">
-                02 // CAPABILITIES
+                02 · CAPABILITIES
               </span>
               <h4 className="font-serif text-2xl text-architectural-950 leading-tight">
                 Bespoke Systems Engineering
@@ -146,7 +146,7 @@ export function PhoneInteractiveExperience({
           {activeTab === 'team' && (
             <div className="space-y-4 animate-fade-in">
               <span className="font-mono text-[9px] text-gold tracking-widest uppercase block">
-                03 // FOUNDERS
+                03 · FOUNDERS
               </span>
               <h4 className="font-serif text-2xl text-architectural-950 leading-tight">
                 Founder-Led Studio

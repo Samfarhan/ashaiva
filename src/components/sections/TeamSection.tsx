@@ -5,14 +5,14 @@ import { ArrowUpRight } from 'lucide-react';
 
 export function TeamSection() {
   return (
-    <section id="team" className="py-28 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
+    <section id="team" className="pt-12 pb-28 px-6 sm:px-10 max-w-7xl mx-auto relative z-10">
       <div className="editorial-panel backdrop-blur-3xl bg-[#07090e]/92 border border-white/[0.12] rounded-2xl p-8 sm:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.8)]">
         {/* Section Header */}
         <div className="space-y-4 mb-14 max-w-3xl">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_#c8a97e]" />
             <span className="font-mono text-[11px] text-gold tracking-[0.25em] uppercase font-semibold">
-              LEADERSHIP // FOUNDER-LED STUDIO
+              LEADERSHIP · FOUNDER-LED STUDIO
             </span>
           </div>
 
