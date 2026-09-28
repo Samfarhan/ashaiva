@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -47,12 +47,18 @@ export default function HomePage() {
   // Setup Lenis Smooth Inertial Scroll
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.95,
-      touchMultiplier: 1.3,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.2,
+    });
+
+    lenis.on('scroll', (e: { progress: number }) => {
+      if (typeof e.progress === 'number') {
+        setScrollProgress(Math.min(Math.max(e.progress, 0), 1));
+      }
     });
 
     function raf(time: number) {
@@ -61,18 +67,15 @@ export default function HomePage() {
     }
     requestAnimationFrame(raf);
 
-    const onScroll = () => {
-      const scrollY = window.scrollY;
+    const initProgress = () => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? Math.min(Math.max(scrollY / maxScroll, 0), 1) : 0;
-      setScrollProgress(progress);
+      if (maxScroll > 0) {
+        setScrollProgress(Math.min(Math.max(window.scrollY / maxScroll, 0), 1));
+      }
     };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    initProgress();
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
       lenis.destroy();
     };
   }, []);

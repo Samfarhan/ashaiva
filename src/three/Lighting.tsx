@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 
@@ -73,6 +73,18 @@ export function Lighting({ scrollProgress }: LightingProps) {
         penumbra={0.6}
         color="#ffe8cc"
         distance={12}
+        decay={1.6}
+      />
+
+      {/* Right Corridor Gallery Wall Illumination */}
+      <spotLight
+        position={[3.2, 9.8, -5.5]}
+        target-position={[5.2, 8.2, -5.5]}
+        intensity={isIndoor ? 2.6 : 0.4}
+        angle={Math.PI / 3}
+        penumbra={0.7}
+        color="#fff4e0"
+        distance={10}
         decay={1.6}
       />
     </>
